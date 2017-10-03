@@ -1,44 +1,86 @@
 import * as React from 'react';
 import RawEmail from './Email';
-import { InputProps } from './types';
+import validate from '../validate';
+import { InputProps, Validity, VALIDATING, InputComponentType } from './types';
 
-interface Props<T> {
+interface Props<T, U> {
     initialValue?: T;
+    required?: boolean;
+    validate?(v: U): Promise<U>;
 }
 
-interface State<T> {
+interface State<T, U> {
+    dirty: boolean;
+    validity: Validity<U>;
     value: T;
 }
 
-const stateWrap = <T>(Component: React.ComponentType<InputProps<T>>, defaultInitialValue: T) =>
-    class extends React.Component<Props<T>, State<T>> {
-        public static displayName = 'stateWrap';
+const stateWrap = <T, U>(Component: InputComponentType<T, U>,
+                         emptyValue: T,
+                         isEmpty: (v: T) => boolean) =>
+    class extends React.Component<Props<T, U>, State<T, U>> {
+        public static displayName = `stateWrap(${Component.name || 'Unnamed component'})`;
 
-        public static defaultProps: Partial<Props<T>> = {
-            initialValue: defaultInitialValue,
+        public static defaultProps: Partial<Props<T, U>> = {
+            initialValue: emptyValue,
+            required: false,
         };
 
-        constructor(props: Props<T>) {
+        alive = true;
+
+        constructor(props: Props<T, U>) {
             super(props);
             const { initialValue } = this.props;
             this.state = {
-                value: initialValue as T,
+                dirty: false,
+                value: initialValue as T,  // safe because defaultProps
+                validity: { state: VALIDATING },
             };
+            this.validate();
+        }
+
+        validate = () => {
+            const { required, validate: extraValidate } = this.props;
+            const { value } = this.state;
+            validate<T, U>(value, required as boolean, isEmpty, Component.validate, extraValidate)
+                .then((validity: Validity<U>) => {
+                    // TODO: cancel validation in cWU instead of guarding here
+                    if (this.alive) {
+                        this.setState({ validity });
+                    }
+                });
         }
 
         handleUpdate = (value: T) => {
-            this.setState({ value });
+            this.setState({ value }, () => {
+                if (this.state.dirty) {
+                    this.validate();
+                }
+            });
         }
 
-        render(): React.ReactElement<InputProps<T>> {
-            const { value } = this.state;
+        handleCommit = () => {
+            this.setState({ dirty: true });
+            this.validate();
+        }
+
+        componentWillUnmount() {
+            this.alive = false;
+        }
+
+        render(): React.ReactElement<InputProps<T, U>> {
+            const { dirty, validity, value } = this.state;
             return React.createElement(Component, {
-                dirty: false,
+                dirty,
+                onCommit: this.handleCommit,
                 onUpdate: this.handleUpdate,
-                valid: 'yes',
+                validity,
                 value,
             });
         }
     };
 
-export const Email = stateWrap<string>(RawEmail, '');
+const stringWrap = (Component: InputComponentType<string, string>) =>
+    stateWrap<string, string>(Component, '', v => v === '');
+
+export const Email = stringWrap(RawEmail);

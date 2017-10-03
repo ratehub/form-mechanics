@@ -9,8 +9,9 @@ export default class App extends React.Component<{}, {}> {
                 <E2 />
                 <Email
                     dirty={false}
+                    onCommit={() => null}
                     onUpdate={(x) => null}
-                    valid={'yes'}
+                    validity={{ state: 'valid', cleanValue: '' }}
                     value=""
                 />
             </div>
