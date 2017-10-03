@@ -2,8 +2,11 @@
   "name": "forms",
   "version": "0.1.0",
   "private": true,
+  "typings": "typings/",
   "dependencies": {
+    "glamor": "^2.20.40",
     "react": "^16.0.0",
+    "react-display-name": "^0.2.3",
     "react-dom": "^16.0.0",
     "react-scripts-ts": "2.7.0"
   },

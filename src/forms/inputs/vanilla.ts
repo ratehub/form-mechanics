@@ -1,4 +1,5 @@
 import * as React from 'react';
+import getName from 'react-display-name';
 import RawEmail from './Email';
 import validate from '../validate';
 import { InputProps, Validity, VALIDATING, InputComponentType } from './types';
@@ -19,7 +20,7 @@ const stateWrap = <T, U>(Component: InputComponentType<T, U>,
                          emptyValue: T,
                          isEmpty: (v: T) => boolean) =>
     class extends React.Component<Props<T, U>, State<T, U>> {
-        public static displayName = `stateWrap(${Component.name || 'Unnamed component'})`;
+        public static displayName = `stateWrap(${getName(Component)})`;
 
         public static defaultProps: Partial<Props<T, U>> = {
             initialValue: emptyValue,
