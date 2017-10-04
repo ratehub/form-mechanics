@@ -10,7 +10,7 @@ export default class App extends React.Component<{}, {}> {
                 <div>
                     <E2
                         inputProps={{
-                            placeholder: 'hi',
+                            placeholder: 'email address',
                             maxLength: 80,
                         }}
                     />
