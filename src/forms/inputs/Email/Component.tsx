@@ -29,7 +29,7 @@ const Email: React.StatelessComponent<ThemedProps> =
  * @param v email address to check
  */
 const validate = (v: string) =>
-    /.+@.+\.+/.test(v)
+    /.+@.+\..+/.test(v)
         ? Promise.resolve(v)
         : Promise.reject('Invalid email address');
 
