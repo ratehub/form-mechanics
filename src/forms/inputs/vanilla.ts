@@ -5,10 +5,11 @@ import validate from '../validate';
 import { ChangeHandler, InputProps, Validity, VALIDATING, InputComponentType } from '../types';
 
 interface Props<T, U, V> {
+    disabled?: boolean;
     initialValue?: T;
-    required?: boolean;
     inputProps?: V;
     onChange?: ChangeHandler<U>;
+    required?: boolean;
     validate?(v: U): Promise<U>;
 }
 
@@ -25,6 +26,7 @@ const stateWrap = <T, U, V = {}>(Component: InputComponentType<T, U, V>,
         public static displayName = `stateWrap(${getName(Component)})`;
 
         public static defaultProps: Partial<Props<T, U, V>> = {
+            disabled: false,
             initialValue: emptyValue,
             onChange: (_) => null,
             required: false,
@@ -37,7 +39,7 @@ const stateWrap = <T, U, V = {}>(Component: InputComponentType<T, U, V>,
             const { initialValue } = this.props;
             this.state = {
                 dirty: false,
-                value: initialValue as T,  // safe because defaultProps
+                value: initialValue!,  // defaulted
                 validity: { state: VALIDATING },
             };
             this.validate();
@@ -49,10 +51,9 @@ const stateWrap = <T, U, V = {}>(Component: InputComponentType<T, U, V>,
             validate<T, U>(value, required as boolean, isEmpty, Component.validate, extraValidate)
                 .then((validity: Validity<U>) => {
                     // TODO: cancel validation in cWU instead of guarding here
-                    if (this.alive) {
-                        const onChange = this.props.onChange as ChangeHandler<U>;  // defaulted
+                    if (this.alive && !this.props.disabled) {
                         this.setState({ validity });
-                        onChange(validity);
+                        this.props.onChange!(validity);  // defaulted
                     }
                 });
         }
@@ -75,9 +76,10 @@ const stateWrap = <T, U, V = {}>(Component: InputComponentType<T, U, V>,
         }
 
         render(): React.ReactElement<InputProps<T, U, V>> {
-            const { inputProps } = this.props;
+            const { disabled, inputProps } = this.props;
             const { dirty, validity, value } = this.state;
             return React.createElement(Component, {
+                disabled,
                 dirty,
                 inputProps,
                 onCommit: this.handleCommit,

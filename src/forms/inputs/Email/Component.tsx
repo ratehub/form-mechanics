@@ -53,6 +53,7 @@ const style = makeStyles((theme: themeType, { validity }: Props) => css(
     },
     ':disabled': {
         color: theme.inputColorDisabled,
+        cursor: 'not-allowed',
         borderColor: theme.inputBorderDisabled,
     },
 },

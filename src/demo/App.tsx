@@ -15,6 +15,7 @@ export default class App extends React.Component<{}, {}> {
                         }}
                     />
                     <Email
+                        disabled={true}
                         dirty={false}
                         onCommit={() => null}
                         onUpdate={(_: {}) => null}
