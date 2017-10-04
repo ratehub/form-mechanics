@@ -2,7 +2,7 @@ import * as React from 'react';
 import getName from 'react-display-name';
 import RawEmail, { P as EmailP } from './Email';
 import validate from '../validate';
-import { ChangeHandler, InputProps, Validity, VALIDATING, InputComponentType } from './types';
+import { ChangeHandler, InputProps, Validity, VALIDATING, InputComponentType } from '../types';
 
 interface Props<T, U, V> {
     initialValue?: T;

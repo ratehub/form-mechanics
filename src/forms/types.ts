@@ -1,21 +1,18 @@
 
-export type tValidating = 'validating';
-export const VALIDATING: tValidating = 'validating';
+export const VALIDATING: 'validating' = 'validating';
 export interface Validating {
-    state: 'validating';
+    state: typeof VALIDATING;
 }
 
-export type tValid = 'valid';
-export const VALID: tValid = 'valid';
+export const VALID: 'valid' = 'valid';
 export interface Valid<V> {
-    state: tValid;
+    state: typeof VALID;
     cleanValue?: V;
 }
 
-export type tInvalid = 'invalid';
-export const INVALID: tInvalid = 'invalid';
+export const INVALID: 'invalid' = 'invalid';
 export interface Invalid {
-    state: tInvalid;
+    state: typeof INVALID;
     reason: string;
 }
 
