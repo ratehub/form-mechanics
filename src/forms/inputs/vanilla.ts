@@ -1,6 +1,7 @@
 import * as React from 'react';
 import getName from 'react-display-name';
 import RawEmail, { P as EmailP } from './Email';
+import RawText, { P as TextP } from './Text';
 import validate from '../validate';
 import { ChangeHandler, InputProps, Validity, VALIDATING, InputComponentType } from '../types';
 
@@ -94,3 +95,4 @@ const stringWrap = <T = {}>(Component: InputComponentType<string, string, T>) =>
     stateWrap<string, string, T>(Component, '', v => v === '');
 
 export const Email = stringWrap<EmailP>(RawEmail);
+export const Text = stringWrap<TextP>(RawText);

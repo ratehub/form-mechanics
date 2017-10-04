@@ -1,27 +1,54 @@
 import * as React from 'react';
 import { ThemeProvider } from '../theme';
-import Email from '../forms/inputs/Email';
-import { Email as E2 } from '../forms/inputs/vanilla';
+import { Form, Input } from '../forms/mst';
+import { Form as ProfileForm } from './Store';
+
+const handleSubmit = (_: {}) => null;
+
+const Row: React.StatelessComponent = ({ children }) => (
+    <div>
+        {children}
+    </div>
+);
+
+const Col: React.StatelessComponent = ({ children }) => (
+    <div>
+        {children}
+    </div>
+);
 
 export default class App extends React.Component<{}, {}> {
     render() {
         return (
             <ThemeProvider>
                 <div>
-                    <E2
-                        inputProps={{
-                            placeholder: 'email address',
-                            maxLength: 80,
-                        }}
-                    />
-                    <Email
-                        disabled={true}
-                        dirty={false}
-                        onCommit={() => null}
-                        onUpdate={(_: {}) => null}
-                        validity={{ state: 'valid', cleanValue: '' }}
-                        value=""
-                    />
+                    <h1>Profile form</h1>
+                    <Form
+                        model={ProfileForm.model}
+                        onSubmit={handleSubmit}
+                    >
+                        <Row>
+                            <Col>
+                                <Input field="firstName" />
+                            </Col>
+                            <Col>
+                                <Input field="lastName" />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Input field="email" />
+                            </Col>
+                            <Col>
+                                <Input field="phone" />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <button type="submit">submit</button>
+                            </Col>
+                        </Row>
+                    </Form>
                 </div>
             </ThemeProvider>
         );

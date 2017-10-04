@@ -8,11 +8,11 @@ type Props = InputProps<string, string, { placeholder: string }>;
 // tslint:disable-next-line:no-any
 type ThemedProps = Props & { styles: any };
 
-const Email: React.StatelessComponent<ThemedProps> =
+const Text: React.StatelessComponent<ThemedProps> =
     ({ disabled, inputProps, onCommit, onUpdate, styles, value }: ThemedProps) => (
     <input
         disabled={disabled}
-        type="email"
+        type="text"
         onBlur={(_) => onCommit()}
         onChange={(e: {target: {value: string}}) => onUpdate(e.target.value)}
         value={value}
@@ -22,17 +22,12 @@ const Email: React.StatelessComponent<ThemedProps> =
 );
 
 /**
- * Test if an email address might be valid
+ * All strings are valid strings
  *
- * Accepts everything except some definitely-bad addresses:
- * <anything>@<anything>.<anything>
- *
- * @param v email address to check
+ * @param v the string to check
  */
 const validate = (v: string) =>
-    /.+@.+\..+/.test(v)
-        ? Promise.resolve(v)
-        : Promise.reject('Invalid email address');
+   Promise.resolve(v);
 
 const style = makeStyles((theme: themeType, { validity }: Props) => css(
 {
@@ -59,6 +54,6 @@ validity.state === INVALID && {
     borderColor: theme.inputBorderInvalid,
 }));
 
-export default Object.assign(style(Email), { validate });
+export default Object.assign(style(Text), { validate });
 
 export type P = React.InputHTMLAttributes<HTMLInputElement> & React.ClassAttributes<HTMLInputElement>;
