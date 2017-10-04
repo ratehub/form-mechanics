@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { css } from 'glamor';
-import { makeStyles } from '../../theme';
+import { makeStyles } from '../../../theme';
 import { InputProps, INVALID } from '../../types';
 
 type Props = InputProps<string, string, { placeholder: string }>;

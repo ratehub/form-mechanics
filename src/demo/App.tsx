@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ThemeProvider } from '../forms/theme';
+import { ThemeProvider } from '../theme';
 import Email from '../forms/inputs/Email';
 import { Email as E2 } from '../forms/inputs/vanilla';
 
