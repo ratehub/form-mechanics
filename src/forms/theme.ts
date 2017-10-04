@@ -8,7 +8,7 @@ type Context = { __forms_theme: themeType };
 export const makeStyles = <P>(make: (theme: themeType, props: P) => themeType) => {
     type InjectedProps = P & { styles: themeType };
     return (Component: React.ComponentType<InjectedProps>): React.ComponentType<P> => {
-        const Wrapped: React.SFC = (props: P, { __forms_theme }: Context) =>
+        const Wrapped: React.StatelessComponent = (props: P, { __forms_theme }: Context) =>
             React.createElement(Component,
                                 Object.assign({ styles: make(__forms_theme, props) }, props));
 

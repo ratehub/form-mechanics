@@ -19,20 +19,21 @@ export interface Invalid {
     reason: string;
 }
 
-export type Validity<V> = Validating
-                        | Valid<V>
+export type Validity<T> = Validating
+                        | Valid<T>
                         | Invalid;
 
-export interface InputProps<T, V> {
+export interface InputProps<T, U, V> {
     dirty: boolean;
     disabled?: boolean;
+    inputProps?: V;
     required?: boolean;
-    validity: Validity<V>;
+    validity: Validity<U>;
     value: T;
     onCommit(): void;
     onUpdate(newValue: T): void;
 }
 
-export type InputComponentType<T, V> = React.ComponentType<InputProps<T, V>> & {
-    validate(v: T): Promise<V>
+export type InputComponentType<T, U, V = {}> = React.ComponentType<InputProps<T, U, V>> & {
+    validate(v: T): Promise<U>
 };

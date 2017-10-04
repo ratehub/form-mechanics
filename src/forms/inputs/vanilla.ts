@@ -1,12 +1,13 @@
 import * as React from 'react';
 import getName from 'react-display-name';
-import RawEmail from './Email';
+import RawEmail, { P as EmailP } from './Email';
 import validate from '../validate';
 import { InputProps, Validity, VALIDATING, InputComponentType } from './types';
 
-interface Props<T, U> {
+interface Props<T, U, V> {
     initialValue?: T;
     required?: boolean;
+    inputProps?: V;
     validate?(v: U): Promise<U>;
 }
 
@@ -16,20 +17,20 @@ interface State<T, U> {
     value: T;
 }
 
-const stateWrap = <T, U>(Component: InputComponentType<T, U>,
-                         emptyValue: T,
-                         isEmpty: (v: T) => boolean) =>
-    class extends React.Component<Props<T, U>, State<T, U>> {
+const stateWrap = <T, U, V = {}>(Component: InputComponentType<T, U, V>,
+                                 emptyValue: T,
+                                 isEmpty: (v: T) => boolean) =>
+    class extends React.Component<Props<T, U, V>, State<T, U>> {
         public static displayName = `stateWrap(${getName(Component)})`;
 
-        public static defaultProps: Partial<Props<T, U>> = {
+        public static defaultProps: Partial<Props<T, U, V>> = {
             initialValue: emptyValue,
             required: false,
         };
 
         alive = true;
 
-        constructor(props: Props<T, U>) {
+        constructor(props: Props<T, U, V>) {
             super(props);
             const { initialValue } = this.props;
             this.state = {
@@ -69,10 +70,12 @@ const stateWrap = <T, U>(Component: InputComponentType<T, U>,
             this.alive = false;
         }
 
-        render(): React.ReactElement<InputProps<T, U>> {
+        render(): React.ReactElement<InputProps<T, U, V>> {
+            const { inputProps } = this.props;
             const { dirty, validity, value } = this.state;
             return React.createElement(Component, {
                 dirty,
+                inputProps,
                 onCommit: this.handleCommit,
                 onUpdate: this.handleUpdate,
                 validity,
@@ -81,7 +84,7 @@ const stateWrap = <T, U>(Component: InputComponentType<T, U>,
         }
     };
 
-const stringWrap = (Component: InputComponentType<string, string>) =>
-    stateWrap<string, string>(Component, '', v => v === '');
+const stringWrap = <T = {}>(Component: InputComponentType<string, string, T>) =>
+    stateWrap<string, string, T>(Component, '', v => v === '');
 
-export const Email = stringWrap(RawEmail);
+export const Email = stringWrap<EmailP>(RawEmail);

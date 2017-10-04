@@ -3,13 +3,13 @@ import { css } from 'glamor';
 import { makeStyles } from '../../theme';
 import { InputProps, INVALID } from '../types';
 
-type Props = InputProps<string, string>;
+type Props = InputProps<string, string, { placeholder: string }>;
 
 // tslint:disable-next-line:no-any
 type ThemedProps = Props & { styles: any };
 
 const Email: React.StatelessComponent<ThemedProps> =
-    ({ disabled, onCommit, onUpdate, styles, value }: ThemedProps) => (
+    ({ disabled, inputProps, onCommit, onUpdate, styles, value }: ThemedProps) => (
     <input
         disabled={disabled}
         type="email"
@@ -17,6 +17,7 @@ const Email: React.StatelessComponent<ThemedProps> =
         onChange={(e: {target: {value: string}}) => onUpdate(e.target.value)}
         value={value}
         {...styles}
+        {...inputProps}
     />
 );
 
@@ -60,3 +61,5 @@ validity.state === INVALID && {
 }));
 
 export default Object.assign(style(Email), { validate });
+
+export type P = React.InputHTMLAttributes<HTMLInputElement> & React.ClassAttributes<HTMLInputElement>;

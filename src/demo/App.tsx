@@ -8,11 +8,16 @@ export default class App extends React.Component<{}, {}> {
         return (
             <ThemeProvider>
                 <div>
-                    <E2 />
+                    <E2
+                        inputProps={{
+                            placeholder: 'hi',
+                            maxLength: 80,
+                        }}
+                    />
                     <Email
                         dirty={false}
                         onCommit={() => null}
-                        onUpdate={(x) => null}
+                        onUpdate={(_: {}) => null}
                         validity={{ state: 'valid', cleanValue: '' }}
                         value=""
                     />
