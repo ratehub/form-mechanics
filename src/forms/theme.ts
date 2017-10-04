@@ -5,12 +5,9 @@ type themeType = { [k: string]: string | number };
 
 type Context = { __forms_theme: themeType };
 
-// tslint:disable-next-line:no-any
-export const makeStyles = <P>(make: (theme: themeType, props: P) => any) => {
-    // tslint:disable-next-line:no-any
-    type InjectedProps = P & { styles: any };
+export const makeStyles = <P>(make: (theme: themeType, props: P) => themeType) => {
+    type InjectedProps = P & { styles: themeType };
     return (Component: React.ComponentType<InjectedProps>): React.ComponentType<P> => {
-        // tslint:disable-next-line:no-any
         const Wrapped: React.SFC = (props: P, { __forms_theme }: Context) =>
             React.createElement(Component,
                                 Object.assign({ styles: make(__forms_theme, props) }, props));
