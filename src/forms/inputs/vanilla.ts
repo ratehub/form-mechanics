@@ -2,12 +2,13 @@ import * as React from 'react';
 import getName from 'react-display-name';
 import RawEmail, { P as EmailP } from './Email';
 import validate from '../validate';
-import { InputProps, Validity, VALIDATING, InputComponentType } from './types';
+import { ChangeHandler, InputProps, Validity, VALIDATING, InputComponentType } from './types';
 
 interface Props<T, U, V> {
     initialValue?: T;
     required?: boolean;
     inputProps?: V;
+    onChange?: ChangeHandler<U>;
     validate?(v: U): Promise<U>;
 }
 
@@ -25,6 +26,7 @@ const stateWrap = <T, U, V = {}>(Component: InputComponentType<T, U, V>,
 
         public static defaultProps: Partial<Props<T, U, V>> = {
             initialValue: emptyValue,
+            onChange: (_) => null,
             required: false,
         };
 
@@ -48,7 +50,9 @@ const stateWrap = <T, U, V = {}>(Component: InputComponentType<T, U, V>,
                 .then((validity: Validity<U>) => {
                     // TODO: cancel validation in cWU instead of guarding here
                     if (this.alive) {
+                        const onChange = this.props.onChange as ChangeHandler<U>;  // defaulted
                         this.setState({ validity });
+                        onChange(validity);
                     }
                 });
         }

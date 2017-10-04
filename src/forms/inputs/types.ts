@@ -37,3 +37,5 @@ export interface InputProps<T, U, V> {
 export type InputComponentType<T, U, V = {}> = React.ComponentType<InputProps<T, U, V>> & {
     validate(v: T): Promise<U>
 };
+
+export type ChangeHandler<T> = (v: Validity<T>) => void;
