@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { IStateTreeNode } from 'mobx-state-tree';
+// import { IModelType } from 'mobx-state-tree';
 
 interface FormProps {
    children: React.ReactNode;
-   model: IStateTreeNode;
+   // tslint:disable-next-line:no-any
+   model: any;
    onSubmit(_: {}): void;
 }
 
