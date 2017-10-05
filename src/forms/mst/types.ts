@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as mst from 'mobx-state-tree';
 // import getName from 'react-display-name';
 // import RawEmail, { P as EmailP } from './Email';
 import { VALID, VALIDATING, INVALID } from '../types';
@@ -29,13 +30,34 @@ export const makeModel = <T, U>(name: string,
                                Validating.create()),
       value: types.model(valueModel),
    });
+   console.log(Model);
    return (() => null) as React.StatelessComponent;
 };
 
 // const stateWrap = <T, U, V = {}>(Component: InputComponentType<T, U, V>
 // ): React.StatelessComponent =>
 
-export const EmailModel = makeModel('Email', '', types.string, types.string);
+// export const EmailModel = makeModel('Email', '', types.string, types.string);
 
+import { Text } from '../vanilla';
+import { Email } from '../vanilla';
 
-export const Form = 
+// tslint:disable-next-line:no-any
+export const text = (name: string, options: {}): mst.IModelType<any, any> =>
+   mst.types
+      .model(name, {})
+      .views((_) => ({
+         get Component() {
+            return Text;
+         }
+      }));
+
+// tslint:disable-next-line:no-any
+export const email = (name: string, options: {}): mst.IModelType<any, any> =>
+   mst.types
+      .model(name, {})
+      .views((_) => ({
+         get Component() {
+            return Email;
+         }
+      }));

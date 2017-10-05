@@ -1,9 +1,8 @@
 import * as React from 'react';
+import { observer } from 'mobx-react';
 import { ThemeProvider } from '../theme';
-import { Form, Input } from '../forms/mst';
+import { FormProvider, Input } from '../forms/mst';
 import { Form as ProfileForm } from './Store';
-
-const handleSubmit = (_: {}) => null;
 
 const Row: React.StatelessComponent = ({ children }) => (
     <div>
@@ -17,16 +16,23 @@ const Col: React.StatelessComponent = ({ children }) => (
     </div>
 );
 
-export default class App extends React.Component<{}, {}> {
+@observer
+export default class App extends React.Component {
+    fields = ProfileForm.create();
+
+    handleSubmit = (data: {}) => {
+        console.log('data', data);
+    }
+
     render() {
         return (
             <ThemeProvider>
-                <div>
-                    <h1>Profile form</h1>
-                    <Form
-                        model={ProfileForm.model}
-                        onSubmit={handleSubmit}
-                    >
+                <FormProvider
+                    model={this.fields}
+                    onSubmit={this.handleSubmit}
+                >
+                    <div>
+                        <h1>Profile form</h1>
                         <Row>
                             <Col>
                                 <Input field="firstName" />
@@ -39,17 +45,17 @@ export default class App extends React.Component<{}, {}> {
                             <Col>
                                 <Input field="email" />
                             </Col>
-                            <Col>
+                            {/*<Col>
                                 <Input field="phone" />
-                            </Col>
+                            </Col>*/}
                         </Row>
                         <Row>
                             <Col>
                                 <button type="submit">submit</button>
                             </Col>
                         </Row>
-                    </Form>
-                </div>
+                    </div>
+                </FormProvider>
             </ThemeProvider>
         );
     }

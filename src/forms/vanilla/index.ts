@@ -1,7 +1,7 @@
 import * as React from 'react';
 import getName from 'react-display-name';
-import RawEmail, { P as EmailP } from './Email';
-import RawText, { P as TextP } from './Text';
+import RawEmail, { P as EmailP } from '../inputs/Email';
+import RawText, { P as TextP } from '../inputs/Text';
 import validate from '../validate';
 import { ChangeHandler, InputProps, Validity, VALIDATING, InputComponentType } from '../types';
 
