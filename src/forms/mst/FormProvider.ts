@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CTX } from './constants';
+import { CTX_KEY } from './constants';
 
 interface FormProps {
    children: React.ReactNode;
@@ -11,10 +11,10 @@ interface FormProps {
 
 export default class FormProvider extends React.Component<FormProps> {
    static childContextTypes = {
-      [CTX]: () => null
+      [CTX_KEY]: () => null
    };
 
-   handleSubmit = (e: Event) => {
+   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const { model, onSubmit } = this.props;
       if (model.validity.state === 'valid') {
@@ -25,10 +25,19 @@ export default class FormProvider extends React.Component<FormProps> {
       }
    }
 
+   handleReset = () => {
+      const { model } = this.props;
+      model.reset();
+   }
+
    getChildContext() {
-      const { model, onSubmit } = this.props;
+      const { model } = this.props;
       return {
-         [CTX]: { model, onSubmit },
+         [CTX_KEY]: {
+            model,
+            onSubmit: this.handleSubmit,
+            onReset: this.handleReset,
+         },
       };
    }
 

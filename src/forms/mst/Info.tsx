@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { CTX } from './constants';
+import { CTX_KEY } from './constants';
 
-const Info: React.StatelessComponent = (_, { [CTX]: { model } }) => (
+const Info: React.StatelessComponent = (_, { [CTX_KEY]: { model } }) => (
    <div>
       <p>dirty? {model.dirty ? 'ya' : 'na'}</p>
       <p>
@@ -26,7 +26,7 @@ const Info: React.StatelessComponent = (_, { [CTX]: { model } }) => (
 );
 
 Info.contextTypes = {
-   [CTX]: () => null,
+   [CTX_KEY]: () => null,
 };
 
 

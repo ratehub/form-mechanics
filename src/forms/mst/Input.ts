@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CTX } from './constants';
+import { CTX_KEY } from './constants';
 
 interface InputProps {
    children?: React.ReactNode;
@@ -8,7 +8,7 @@ interface InputProps {
 
 const Input: React.StatelessComponent<InputProps> = (
    { children, field: fieldName }: InputProps,
-   { [CTX]: { model } }
+   { [CTX_KEY]: { model } }
 ) => {
    const field = model.fields[fieldName];
    if (!field) {
@@ -19,7 +19,7 @@ const Input: React.StatelessComponent<InputProps> = (
 };
 
 Input.contextTypes = {
-   [CTX]: () => null,
+   [CTX_KEY]: () => null,
 };
 
 export default Input;

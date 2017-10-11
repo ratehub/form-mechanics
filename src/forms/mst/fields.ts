@@ -93,6 +93,11 @@ export const make = <T, U>(InputComponent: InputComponentType<T, U>,
                self.validate();
             }
          },
+         reset() {
+            self.dirty = false;
+            self.value = emptyValue;
+            self.validate();
+         },
       }));
 
    return Model;

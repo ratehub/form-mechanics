@@ -18,6 +18,14 @@ export default (name: string, ...fields: IModelType<any, any>[]) =>
       touch() {
          self.touched = true;
       },
+      reset() {
+         self.touched = false;
+         self.error = null;
+         Object.keys(self.fields).forEach(fieldName => {
+            const { [fieldName]: field } = self.fields;
+            field.reset();
+         });
+      },
    }))
    .views(self => ({
       get dirty() {

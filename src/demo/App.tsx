@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { ThemeProvider } from '../theme';
-import { FormProvider, Input, Info } from '../forms/mst';
+import { FormProvider, Input, Info, Submit, Reset } from '../forms/mst';
 import { Form as ProfileForm } from './Store';
 
 const Row: React.StatelessComponent = ({ children }) => (
@@ -60,7 +60,8 @@ export default class App extends React.Component {
                         </Row>
                         <Row>
                             <Col>
-                                <button type="submit">Submit</button>
+                                <Submit>Submit</Submit>
+                                <Reset>Reset</Reset>
                             </Col>
                         </Row>
                     </div>
