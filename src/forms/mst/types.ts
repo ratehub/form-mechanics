@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { clone, process, isAlive, types, IType } from 'mobx-state-tree';
+import { process, types, IType } from 'mobx-state-tree';
 import getName from 'react-display-name';
-// import RawEmail, { P as EmailP } from './Email';
 import { InputComponentType, VALID, VALIDATING, INVALID } from '../types';
 import validate from '../validate';
 
@@ -32,13 +31,12 @@ export const make = <T, U>(InputComponent: InputComponentType<T, U>,
    }
 
    const _Wrapped: React.StatelessComponent<Props> = ({ field }) =>
-      console.log('RENDER', name, 'isa', isAlive(field), isAlive(field.validity), field) ||
       React.createElement(InputComponent, {
          dirty: field.dirty,
          // TODO: required from factory
          onCommit: field.handleCommit,
          onUpdate: field.handleUpdate,
-         validity: clone(field.validity),
+         validity: field.validity,
          value: field.value,
       });
    _Wrapped.displayName = `mst(${getName(InputComponent)})`;
@@ -59,27 +57,23 @@ export const make = <T, U>(InputComponent: InputComponentType<T, U>,
       .actions(self => ({
          // tslint:disable-next-line:no-any
          setValidity(validity: any) {
+            // this action shouldn't need to exist, but there's an issue with mobx transactions, and wrapping this
+            // mutation fixes it for now.
             self.validity = validity;
          }
       }))
       .actions(self => ({
          validate: process(function* () {
-            console.log('before setting to validating', isAlive(self.validity));
             self.validity = { state: VALIDATING };
-            console.log('after setting to validating, before validating', isAlive(self.validity));
             try {
                const validity = yield validate(self.value, false, () => false, InputComponent.validate);
-               console.log('after validating, before setting with', validity);
 
                // MST bug? switch the following two lines to render with a dead validity subtree.
                // self.validity = validity;
                self.setValidity(validity);
-
-               console.log('after setting validity', isAlive(self.validity));
             } catch (err) {
                throw err;
             }
-            console.log('end of action', isAlive(self.validity));
          }),
       }))
       .actions(self => ({
