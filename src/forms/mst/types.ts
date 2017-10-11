@@ -2,15 +2,17 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { process, types, IType } from 'mobx-state-tree';
 import getName from 'react-display-name';
-import { InputComponentType, VALID, VALIDATING, INVALID } from '../types';
+import { InputComponentType, FieldOptions, VALID, VALIDATING, INVALID } from '../types';
 import validate from '../validate';
 
 export const make = <T, U>(InputComponent: InputComponentType<T, U>,
                            name: string,
+                           { required = false }: FieldOptions,
                            emptyValue: T,
-                                // tslint:disable-next-line:no-any
+                           isEmpty: (x: string) => boolean,
+                           // tslint:disable-next-line:no-any
                            valueModel: IType<T, any>,
-                                // tslint:disable-next-line:no-any
+                           // tslint:disable-next-line:no-any
                            cleanModel: IType<U, any>
 ) => {
    const Valid = types.model('Valid', {
@@ -66,7 +68,7 @@ export const make = <T, U>(InputComponent: InputComponentType<T, U>,
          validate: process(function* () {
             self.validity = { state: VALIDATING };
             try {
-               const validity = yield validate(self.value, false, () => false, InputComponent.validate);
+               const validity = yield validate(self.value, required, isEmpty, InputComponent.validate);
 
                // MST bug? switch the following two lines to render with a dead validity subtree.
                // self.validity = validity;
@@ -96,7 +98,12 @@ export const make = <T, U>(InputComponent: InputComponentType<T, U>,
 import RawText from '../inputs/Text';
 import RawEmail from '../inputs/Email';
 
-// tslint:disable-next-line:no-any
-export const text = (name: string, _: any) => make<string, string>(RawText, name, '', types.string, types.string);
-// tslint:disable-next-line:no-any
-export const email = (name: string, _: any) => make<string, string>(RawEmail, name, '', types.string, types.string);
+const isStringEmpty = (value: string) =>
+   value === '';
+
+const makeString = (Component: InputComponentType<string, string>) =>
+   (name: string, options: FieldOptions) =>
+      make<string, string>(Component, name, options, '', isStringEmpty, types.string, types.string);
+
+export const text = makeString(RawText);
+export const email = makeString(RawEmail);

@@ -36,3 +36,7 @@ export type InputComponentType<T, U, V = {}> = React.ComponentType<InputProps<T,
 };
 
 export type ChangeHandler<T> = (v: Validity<T>) => void;
+
+export interface FieldOptions {
+    required?: boolean;
+}
