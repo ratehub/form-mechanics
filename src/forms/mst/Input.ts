@@ -1,29 +1,25 @@
 import * as React from 'react';
-// import { IStateTreeNode } from 'mobx-state-tree';
+import { CTX } from './constants';
 
 interface InputProps {
    children?: React.ReactNode;
    field: string;
 }
-interface InputContext {
-   // tslint:disable-next-line:no-any
-   __form_fields: any;
-}
 
 const Input: React.StatelessComponent<InputProps> = (
    { children, field: fieldName }: InputProps,
-   { __form_fields }: InputContext
+   { [CTX]: { model } }
 ) => {
-   const field = __form_fields.fields[fieldName];
+   const field = model.fields[fieldName];
    if (!field) {
-      const available = Object.keys(__form_fields.fields).map(n => `'${n}'`).join(', ');
+      const available = Object.keys(model.fields).map(n => `'${n}'`).join(', ');
       throw new Error(`could not find field '${fieldName}' (available: ${available})`);
    }
    return React.createElement(field.Component, { field });
 };
 
 Input.contextTypes = {
-   __form_fields: () => null,
+   [CTX]: () => null,
 };
 
 export default Input;

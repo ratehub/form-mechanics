@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
+import { CTX } from './constants';
 
-const Info: React.StatelessComponent = (_, { __form_fields }) => (
+const Info: React.StatelessComponent = (_, { [CTX]: { model } }) => (
    <div>
-      <p>dirty? {__form_fields.dirty ? 'ya' : 'na'}</p>
+      <p>dirty? {model.dirty ? 'ya' : 'na'}</p>
       <p>
          validity:{' '}
          {(() => {
-            const { dirty, validity } = __form_fields;
+            const { dirty, validity } = model;
             if (!dirty) { return 'not dirty'; }
             switch (validity.state) {
             case 'valid':
@@ -25,7 +26,7 @@ const Info: React.StatelessComponent = (_, { __form_fields }) => (
 );
 
 Info.contextTypes = {
-   __form_fields: () => null,
+   [CTX]: () => null,
 };
 
 

@@ -60,7 +60,7 @@ export default class App extends React.Component {
                         </Row>
                         <Row>
                             <Col>
-                                <button type="submit">submit</button>
+                                <button type="submit">Submit</button>
                             </Col>
                         </Row>
                     </div>

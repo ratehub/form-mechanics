@@ -1,22 +1,34 @@
 import * as React from 'react';
-// import { IModelType } from 'mobx-state-tree';
+import { CTX } from './constants';
 
 interface FormProps {
    children: React.ReactNode;
    // tslint:disable-next-line:no-any
    model: any;
-   onSubmit(_: {}): void;
+   // tslint:disable-next-line:no-any
+   onSubmit(_: {}): Promise<any> | void;
 }
 
 export default class FormProvider extends React.Component<FormProps> {
    static childContextTypes = {
-      __form_fields: () => null
+      [CTX]: () => null
    };
 
+   handleSubmit = (e: Event) => {
+      e.preventDefault();
+      const { model, onSubmit } = this.props;
+      if (model.validity.state === 'valid') {
+         onSubmit(model.validity.cleanValue);
+      } else {
+         // can't submit -- the form hasn't validated
+         model.touch();
+      }
+   }
+
    getChildContext() {
-      const { model } = this.props;
+      const { model, onSubmit } = this.props;
       return {
-         __form_fields: model,
+         [CTX]: { model, onSubmit },
       };
    }
 
@@ -28,6 +40,6 @@ export default class FormProvider extends React.Component<FormProps> {
    render() {
       const { children } = this.props;
       if (!children) { return null; }
-      return React.Children.only(children);
+      return React.createElement('form', { onSubmit: this.handleSubmit }, children);
    }
 }
