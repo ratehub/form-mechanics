@@ -1,8 +1,5 @@
 import * as React from 'react';
-import { observable } from 'mobx';
 import { observer } from 'mobx-react';
-import { addMiddleware } from 'mobx-state-tree';
-// const { default: actionLogger } = require('mobx-state-tree/middleware/simple-action-logger');
 import { ThemeProvider } from '../theme';
 import { FormProvider, Input } from '../forms/mst';
 import { Form as ProfileForm } from './Store';
@@ -21,16 +18,10 @@ const Col: React.StatelessComponent = ({ children }) => (
 
 @observer
 export default class App extends React.Component {
-    // fields = addMiddleware(ProfileForm.create(), actionLogger);
-    @observable fields = ProfileForm.create();
+    fields = ProfileForm.create();
 
     constructor() {
         super();
-        // addMiddleware(this.fields, actionLogger);
-        addMiddleware(this.fields, (call, next) => {
-            console.log('WAT', call);
-            return next(call);
-        });
     }
 
     handleSubmit = (data: {}) => {
