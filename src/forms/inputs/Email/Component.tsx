@@ -34,7 +34,7 @@ const validate = (v: string) =>
         ? Promise.resolve(v)
         : Promise.reject('Invalid email address');
 
-const style = makeStyles((theme: themeType, { validity }: Props) => css(
+const style = makeStyles((theme: themeType, { dirty, validity }: Props) => css(
 {
     backgroundColor: theme.inputBackground,
     border: `solid 1.75px ${theme.inputBorder}`,
@@ -55,7 +55,7 @@ const style = makeStyles((theme: themeType, { validity }: Props) => css(
         borderColor: theme.inputBorderDisabled,
     },
 },
-validity.state === INVALID && {
+dirty && validity.state === INVALID && {
     borderColor: theme.inputBorderInvalid,
 }));
 

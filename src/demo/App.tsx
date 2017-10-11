@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { ThemeProvider } from '../theme';
-import { FormProvider, Input } from '../forms/mst';
+import { FormProvider, Input, Info } from '../forms/mst';
 import { Form as ProfileForm } from './Store';
 
 const Row: React.StatelessComponent = ({ children }) => (
@@ -52,6 +52,11 @@ export default class App extends React.Component {
                             {/*<Col>
                                 <Input field="phone" />
                             </Col>*/}
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Info />
+                            </Col>
                         </Row>
                         <Row>
                             <Col>

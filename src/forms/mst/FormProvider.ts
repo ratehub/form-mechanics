@@ -12,12 +12,19 @@ export default class FormProvider extends React.Component<FormProps> {
    static childContextTypes = {
       __form_fields: () => null
    };
+
    getChildContext() {
       const { model } = this.props;
       return {
          __form_fields: model,
       };
    }
+
+   componentWillUnmount() {
+      const { model } = this.props;
+      model.touch();
+   }
+
    render() {
       const { children } = this.props;
       if (!children) { return null; }

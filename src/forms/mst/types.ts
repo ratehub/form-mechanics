@@ -79,6 +79,9 @@ export const make = <T, U>(InputComponent: InputComponentType<T, U>,
          }),
       }))
       .actions(self => ({
+         afterCreate() {  // lifecycle hook
+            self.validate();
+         },
          handleCommit() {
             self.dirty = true;
             self.validate();
