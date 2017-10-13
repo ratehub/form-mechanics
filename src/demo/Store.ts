@@ -1,10 +1,17 @@
-import { createFormModel, text, email } from '../forms/mst';
+import { formModel } from '../mst';
+import { Text, Email } from '../ui/widgets';
 
-export const Form = createFormModel(
-   'Profile',
-   text('firstName', { required: true }),
-   text('lastName', { required: true }),
-   email('email', { required: true }),
-   // text('phone', { required: true }),
-   // ProvinceAndAgent.asField({ required: false }),
-);
+export const Form = formModel('Profile', {
+   firstName: {
+      widget: Text,
+      required: true,
+   },
+   lastName: {
+      widget: Text,
+      required: true,
+   },
+   email: {
+      widget: Email,
+      required: true,
+   },
+});

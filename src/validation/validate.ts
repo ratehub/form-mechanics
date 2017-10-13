@@ -1,4 +1,4 @@
-import { Validity, VALID, INVALID } from './types';
+import { Validity, VALID, INVALID } from '../types';
 
 // tslint:disable-next-line:no-any
 const niceError = (err: any) => {

@@ -40,3 +40,9 @@ export type ChangeHandler<T> = (v: Validity<T>) => void;
 export interface FieldOptions {
     required?: boolean;
 }
+
+export interface Info<T> {
+    id: string;
+    required: boolean;
+    validity: Validity<T>;
+}

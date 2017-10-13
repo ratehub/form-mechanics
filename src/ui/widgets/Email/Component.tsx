@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { css } from 'glamor';
 import { makeStyles, themeType } from '../../../theme';
-import { InputProps, INVALID } from '../../types';
+import { FieldProps, INVALID } from '../../../types';
 
-type Props = InputProps<string, string, { placeholder: string }>;
+type Props = FieldProps<string, string, { placeholder: string }>;
 
 // tslint:disable-next-line:no-any
 type ThemedProps = Props & { styles: any };
 
 const Email: React.StatelessComponent<ThemedProps> =
-    ({ disabled, inputProps, onCommit, onUpdate, styles, value }: ThemedProps) => (
+    ({ disabled, inputProps, onCommit, onUpdate, styles, raw }: ThemedProps) => (
     <input
         disabled={disabled}
         type="email"
         onBlur={(_) => onCommit()}
         onChange={(e: {target: {value: string}}) => onUpdate(e.target.value)}
-        value={value}
+        value={raw}
         {...styles}
         {...inputProps}
     />

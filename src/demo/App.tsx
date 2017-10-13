@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { ThemeProvider } from '../theme';
-import { FormProvider, Input, Info, Submit, Reset } from '../forms/mst';
+// import { Input, Info, Submit, Reset } from '../mst';
+import { FormProvider, Input, Submit, Reset } from '../ui';
 import { Form as ProfileForm } from './Store';
 
 const Row: React.StatelessComponent = ({ children }) => (
@@ -25,6 +26,7 @@ export default class App extends React.Component {
     }
 
     handleSubmit = (data: {}) => {
+        // tslint:disable-next-line:no-console
         console.log('data', data);
     }
 
