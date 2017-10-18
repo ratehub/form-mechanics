@@ -1,8 +1,15 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import App from './demo/App';
+import * as ui from './ui';
+import * as mst from './mst';
+import * as theme from './theme';
+import * as types from './types';
+export { types, ui, mst, theme };
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root') as HTMLElement
-);
+if (process.env.NODE_ENV !== 'production') {
+  const React = require('react');
+  const ReactDOM = require('react-dom');
+  const { default: App } = require('./demo/App');
+  ReactDOM.render(
+    <App />,
+    document.getElementById('root') as HTMLElement
+  );
+}

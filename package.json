@@ -1,5 +1,6 @@
 {
-  "name": "forms",
+  "name": "form-mechanics",
+  "description": "Compose forms through a nice API",
   "version": "0.1.0",
   "private": true,
   "typings": "typings/",

@@ -7,19 +7,20 @@ export interface FieldConfig {
    readonly required: boolean;
 }
 
-export interface FieldInfo<Clean> extends FieldConfig {
+export interface FieldInfo<TClean> extends FieldConfig {
    readonly dirty: boolean;
-   readonly validity: Validity<Clean>;
+   readonly validity: Validity<TClean>;
 }
 
-export interface FieldProps<Raw, Clean, InputProps> extends FieldInfo<Clean> {
-   readonly inputProps: InputProps;
+export interface FieldProps<TRaw, TClean, TInputProps> extends FieldInfo<TClean> {
+   readonly inputProps: TInputProps;
    readonly onCommit: () => void;
-   readonly onUpdate: (value: Raw) => void;
-   readonly raw: Raw;
+   readonly onUpdate: (value: TRaw) => void;
+   readonly raw: TRaw;
 }
 
-export type FieldComponentType<R, C, I = {}> = ComponentType<FieldProps<R, C, I>> & {
-   readonly isEmpty: (value: R) => boolean;
-   readonly validate: (value: R) => Promise<C>;
-};
+export type FieldComponentType<TRaw, TClean, TInputProps = {}> =
+   ComponentType<FieldProps<TRaw, TClean, TInputProps>> & {
+      readonly isEmpty: (value: TRaw) => boolean;
+      readonly validate: (value: TRaw) => Promise<TClean>;
+   };
