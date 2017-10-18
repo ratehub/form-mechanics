@@ -1,4 +1,4 @@
-import { StatelessComponent } from 'react';
+import { ComponentType } from 'react';
 import { Validity } from '.';
 
 export interface FieldConfig {
@@ -19,7 +19,7 @@ export interface FieldProps<Raw, Clean, InputProps> extends FieldInfo<Clean> {
    readonly raw: Raw;
 }
 
-export interface FieldComponentType<R, C, I = {}> extends StatelessComponent<FieldProps<R, C, I>> {
+export type FieldComponentType<R, C, I = {}> = ComponentType<FieldProps<R, C, I>> & {
    readonly isEmpty: (value: R) => boolean;
    readonly validate: (value: R) => Promise<C>;
-}
+};

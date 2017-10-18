@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ButtonProps } from './types';
 
 interface Props {
-   onReset(): void;
+   onReset?: () => void;
 }
 
 const Reset: React.StatelessComponent<ButtonProps & Props> = ({ children, disabled = false, onReset }) => (

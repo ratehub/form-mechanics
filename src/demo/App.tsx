@@ -2,7 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { ThemeProvider } from '../theme';
 // import { Input, Info, Submit, Reset } from '../mst';
-import { FormProvider, Input, Submit, Reset } from '../ui';
+import { FormProvider, Info, Input, Submit, Reset } from '../ui';
 import { Form as ProfileForm } from './Store';
 
 const Row: React.StatelessComponent = ({ children }) => (

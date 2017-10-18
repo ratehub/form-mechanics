@@ -21,6 +21,9 @@ const Email: React.StatelessComponent<ThemedProps> =
     />
 );
 
+const isEmpty = (v: string) =>
+    v === '';
+
 /**
  * Test if an email address might be valid
  *
@@ -59,6 +62,6 @@ dirty && validity.state === INVALID && {
     borderColor: theme.inputBorderInvalid,
 }));
 
-export default Object.assign(style(Email), { validate });
+export default Object.assign(style(Email), { isEmpty, validate });
 
 export type P = React.InputHTMLAttributes<HTMLInputElement> & React.ClassAttributes<HTMLInputElement>;

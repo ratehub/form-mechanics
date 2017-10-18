@@ -21,6 +21,9 @@ const Text: React.StatelessComponent<ThemedProps> =
     />
 );
 
+const isEmpty = (v: string) =>
+    v === '';
+
 /**
  * All strings are valid strings
  *
@@ -54,6 +57,6 @@ dirty && validity.state === INVALID && {
     borderColor: theme.inputBorderInvalid,
 }));
 
-export default Object.assign(style(Text), { validate });
+export default Object.assign(style(Text), { isEmpty, validate });
 
 export type P = React.InputHTMLAttributes<HTMLInputElement> & React.ClassAttributes<HTMLInputElement>;
