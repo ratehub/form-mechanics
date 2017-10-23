@@ -13,7 +13,6 @@ interface FieldConfig<TRaw, TClean> {
 
 
 type TFields = {
-   // tslint:disable-next-line:no-any
    readonly [ID: string]: FieldConfig<string, string>;
 };
 
@@ -45,7 +44,6 @@ const fieldModel = (id: string, {
       },
    }))
    .actions(self => ({
-      // tslint:disable-next-line:no-any
       setValidity(validity: typeof ValidityModel.Type) {
          // this action shouldn't need to exist, but there's an issue with mobx transactions, and wrapping this
          // mutation fixes it for now.
