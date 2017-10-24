@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import { Validator, literalProp } from '.';
 
 export const VALIDATING: 'validating' = 'validating';

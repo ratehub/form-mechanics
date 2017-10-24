@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import { Validity, Validator, validityPropType } from '.';
 
 export interface FieldConfig {
@@ -21,13 +21,15 @@ export interface FieldProps<TRaw, TClean, TInputProps> extends FieldInfo<TClean>
 }
 
 export const fieldPropTypes = (rawPropType: Validator, cleanPropType: Validator, inputPropsType: Validator) => ({
-   id: PropTypes.string.isRequired,
-   disabled: PropTypes.boolean.isRequired,
-   required: PropTypes.boolean.isRequired,
    dirty: PropTypes.boolean.isRequired,
-   validity: validityPropType(cleanPropType).isRequired,
+   disabled: PropTypes.boolean.isRequired,
+   id: PropTypes.string.isRequired,
    inputProps: inputPropsType.isRequired,
-   onCommit: PropTypes.func.isRequired
+   onCommit: PropTypes.func.isRequired,
+   onUpdate: PropTypes.func.isRequired,
+   raw: rawPropType.isRequired,
+   required: PropTypes.boolean.isRequired,
+   validity: validityPropType(cleanPropType).isRequired,
 });
 
 export type FieldComponentType<TRaw, TClean, TInputProps = {}> =
