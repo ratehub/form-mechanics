@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { ThemeProvider } from '../theme';
-// import { Input, Info, Submit, Reset } from '../mst';
-import { FormProvider, Info, Input, Submit, Reset } from '../ui';
+import { Form, Input } from '..';
 import { Form as ProfileForm } from './Store';
+import FieldError from './FieldError';
 
 const Row: React.StatelessComponent = ({ children }) => (
-    <div>
+    <div style={{display: 'flex'}}>
         {children}
     </div>
 );
@@ -32,43 +31,37 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <ThemeProvider>
-                <FormProvider
-                    model={this.fields}
-                    onSubmit={this.handleSubmit}
-                >
-                    <div>
-                        <h1>Profile form</h1>
-                        <Row>
-                            <Col>
-                                <Input field="firstName" />
-                            </Col>
-                            <Col>
-                                <Input field="lastName" />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Input field="email" />
-                            </Col>
-                            {/*<Col>
-                                <Input field="phone" />
-                            </Col>*/}
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Info />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Submit>Submit</Submit>
-                                <Reset>Reset</Reset>
-                            </Col>
-                        </Row>
-                    </div>
-                </FormProvider>
-            </ThemeProvider>
+            <Form
+                model={this.fields}
+                onSubmit={this.handleSubmit}
+            >
+                <div>
+                    <h1>Profile form</h1>
+                    <Row>
+                        <Col>
+                            <FieldError field="firstName" />
+                            <Input field="firstName" />
+                        </Col>
+                        <Col>
+                            <Input field="lastName" />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Input field="email" />
+                        </Col>
+                        {/*<Col>
+                            <Input field="phone" />
+                        </Col>*/}
+                    </Row>
+                    <Row>
+                        <Col>
+                            <button type="submit">Submit</button>
+                            <button type="reset">Reset</button>
+                        </Col>
+                    </Row>
+                </div>
+            </Form>
         );
     }
 }

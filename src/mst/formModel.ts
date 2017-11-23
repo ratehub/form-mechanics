@@ -1,7 +1,7 @@
 import { process, types } from 'mobx-state-tree';
 import { validate } from '../validation';
 import validityModel from './validityModel';
-import { VALIDATING, INVALID } from '../types';
+import { VALID, VALIDATING, INVALID, Validity } from '../types';
 import { MSTComponentType } from '.';
 
 
@@ -17,6 +17,12 @@ type TFields = {
 };
 
 
+const getFieldId = (() => {
+   let currentId = 0;
+   return () => currentId++;
+})();
+
+
 const fieldModel = (id: string, {
    widget,
    required = false,
@@ -28,6 +34,14 @@ const fieldModel = (id: string, {
       touched: types.optional(types.boolean, false),
       validity: ValidityModel,
       raw: types.optional(types.string, ''),
+   })
+   .views((self) => {
+      const volatileId = `field-id-${getFieldId()}`;
+      return {
+         get htmlId() {
+            return volatileId;
+         },
+      };
    })
    .views(self => ({
       get Component() {
@@ -54,7 +68,7 @@ const fieldModel = (id: string, {
       validate: process(function* () {
          self.validity = { state: VALIDATING };
          try {
-            const validity = yield validate(self.raw, required, widget.isEmpty, widget.validate);
+            const validity = yield validate(self.raw, required, self.Component.isEmpty, self.Component.validate);
             // MST bug? switch the following two lines to render with a dead validity subtree.
             // self.validity = validity;
             self.setValidity(validity);
@@ -89,11 +103,60 @@ const formModel = (id: string, fields: TFields) =>
          types.model(`${id}Fields`, Object.keys(fields).reduce(
             (props, fieldId: string) => ({
                ...props,
-               [fieldId]: types.optional(fieldModel(id, fields[fieldId]), {}),
+               [fieldId]: types.optional(fieldModel(fieldId, fields[fieldId]), {}),
             }),
             {} as { notUndefined: true })),
          {}),
-   });
+   })
+   .views(self => ({
+      get dirty(): boolean {
+         return self.touched || Object.keys(self.fields).some(f => self.fields[f].dirty);
+      },
+      // tslint:disable-next-line:no-any
+      get raw(): any {
+         return Object.keys(self.fields).reduce(
+            (r, f) => {
+               r[f] = self.fields[f].raw;
+               return r;
+            },
+            {});
+      },
+      // tslint:disable-next-line:no-any
+      get validity(): Validity<any, {k: string}> {
+         return Object.keys(self.fields).reduce(
+            // tslint:disable-next-line:no-any
+            (v: Validity<any, any[]>, name: string) => {
+               if (v.state === VALIDATING) {
+                  return { state: VALIDATING };
+               }
+               const field = self.fields[name];
+               if (field.validity.state === VALIDATING) {
+                  return field.validity;
+               } else if (v.state === INVALID) {
+                  if (field.validity.state === INVALID) {
+                     v.reason[name] = field.validity.reason;
+                  }
+                  return v;
+               } else if (field.validity === INVALID) {
+                  return {
+                     state: INVALID,
+                     reason: { [name]: field.validity.reason },
+                  };
+               }
+               v.cleanValue[name] = field.validity.cleanValue;
+               return v;
+            },
+            {
+               state: VALID,
+               cleanValue: {},
+            });
+      }
+   }))
+   .actions(self => ({
+      touch() {
+         self.touched = true;
+      }
+   }));
 
 
 export default formModel;

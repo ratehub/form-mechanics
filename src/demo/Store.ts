@@ -1,22 +1,18 @@
-import * as React from 'react';
 import { formModel } from '../mst';
-import { Text, Email } from '../mst/widgets';
-
-
-const T: React.ComponentType = Text;
-export { T };
+import TextInput from './TextInput';
+import EmailInput from './EmailInput';
 
 export const Form = formModel('Profile', {
    firstName: {
-      widget: Text,
+      widget: TextInput,
       required: true,
    },
    lastName: {
-      widget: Text,
+      widget: TextInput,
       required: true,
    },
    email: {
-      widget: Email,
+      widget: EmailInput,
       required: true,
    },
 });

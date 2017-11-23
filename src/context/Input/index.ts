@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
+import { getType } from 'mobx-state-tree';
 import { CTX_KEY } from '../constants';
 
 interface Props<TInputProps extends {}> {
@@ -19,10 +20,11 @@ const Input: React.StatelessComponent<Props<any>> = (
       throw new Error(`could not find field '${fieldId}' (available: ${available})`);
    }
    return React.createElement(field.Component, {
-      id: fieldId,
+      id: field.htmlId,
       dirty: field.dirty,
       disabled: disabled || field.disabled,
       inputProps,
+      name: getType(field).name,
       onCommit: field.handleCommit,
       onUpdate: field.handleUpdate,
       raw: field.raw,

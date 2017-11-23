@@ -15,20 +15,21 @@ export interface FieldInfo<TClean> extends FieldConfig {
 
 export interface FieldProps<TRaw, TClean, TInputProps> extends FieldInfo<TClean> {
    readonly inputProps: TInputProps;
+   readonly name: string;
    readonly onCommit: () => void;
    readonly onUpdate: (value: TRaw) => void;
    readonly raw: TRaw;
 }
 
-export const fieldPropTypes = (rawPropType: Validator, cleanPropType: Validator, inputPropsType: Validator) => ({
-   dirty: PropTypes.boolean.isRequired,
-   disabled: PropTypes.boolean.isRequired,
+export const inputProps = (rawPropType: Validator, cleanPropType: Validator, inputPropsType: Validator) => ({
+   dirty: PropTypes.bool.isRequired,
+   disabled: PropTypes.bool.isRequired,
    id: PropTypes.string.isRequired,
-   inputProps: inputPropsType.isRequired,
+   inputProps: inputPropsType,
    onCommit: PropTypes.func.isRequired,
    onUpdate: PropTypes.func.isRequired,
    raw: rawPropType.isRequired,
-   required: PropTypes.boolean.isRequired,
+   required: PropTypes.bool.isRequired,
    validity: validityPropType(cleanPropType).isRequired,
 });
 

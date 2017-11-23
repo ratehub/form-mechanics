@@ -1,10 +1,21 @@
-import * as ui from './ui';
-import * as mst from './mst';
-import * as theme from './theme';
-import * as types from './types';
-export { types, ui, mst, theme };
+export {
+  FieldComponentType,
+  FieldProps,
+  INVALID,
+  VALID,
+  VALIDATING,
+  Validity,
+  inputProps,
+} from './types';
 
-if (process.env.NODE_ENV !== 'production') {
+export {
+  Form,
+  Input,
+  injectFieldInfo,
+} from './context';
+
+
+if (process.env.REACT_APP_DEMO) {
   const React = require('react');
   const ReactDOM = require('react-dom');
   const { default: App } = require('./demo/App');
