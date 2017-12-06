@@ -137,7 +137,7 @@ const formModel = (id: string, fields: TFields) =>
                      v.reason[name] = field.validity.reason;
                   }
                   return v;
-               } else if (field.validity === INVALID) {
+               } else if (field.validity.state === INVALID) {
                   return {
                      state: INVALID,
                      reason: { [name]: field.validity.reason },

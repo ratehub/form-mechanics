@@ -12,6 +12,7 @@ export {
   Form,
   Input,
   injectFieldInfo,
+  injectFormInfo,
 } from './context';
 
 

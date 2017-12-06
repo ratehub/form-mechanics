@@ -28,6 +28,11 @@ const Text: React.StatelessComponent<FieldProps<string, string, {}>> =
       disabled,
       type: 'text',
       onBlur: () => onCommit(),
+      onKeyPress: ({ key }) => {
+         if (key === 'Enter') {
+            onCommit();
+         }
+      },
       onChange: ({ target: { value } }: { target: { value: string } }) => onUpdate(value),
       value: raw,
       style: style(dirty, validity),

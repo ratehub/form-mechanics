@@ -1,6 +1,6 @@
 import TextInput from './TextInput';
 
-export default Object.assign(TextInput.bind(null), {
+export default Object.assign(TextInput.bind(null), TextInput, {
    validate: (v: string): Promise<string> =>
       /.+@.+\..+/.test(v)
          ? Promise.resolve(v)
