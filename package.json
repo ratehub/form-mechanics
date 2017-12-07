@@ -1,7 +1,7 @@
 {
   "name": "form-mechanics",
   "description": "Compose forms through a nice API",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/index.js",
   "typings": "typings/",
   "dependencies": {
@@ -13,7 +13,6 @@
   "scripts": {
     "start": "REACT_APP_DEMO=1 react-scripts-ts start",
     "build": "rm -fr dist && tsc",
-    "postinstall": "npm run build",
     "prepublish": "npm run build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
