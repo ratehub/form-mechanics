@@ -1,4 +1,4 @@
-import { process, types } from 'mobx-state-tree';
+import { process, types, IType } from 'mobx-state-tree';
 import { validate } from '../validation';
 import validityModel from './validityModel';
 import { VALID, VALIDATING, INVALID, Validity } from '../types';
@@ -8,12 +8,13 @@ import { MSTComponentType } from '.';
 interface FieldConfig<TRaw, TClean> {
    readonly disabled?: boolean;
    readonly required?: boolean;
+   readonly valueType?: IType<{}, TClean>;
    readonly widget: MSTComponentType<TRaw, TClean>;
 }
 
 
-type TFields = {
-   readonly [ID: string]: FieldConfig<string, string>;
+type TFields<TClean> = {
+   readonly [ID: string]: FieldConfig<string, TClean>;
 };
 
 
@@ -23,13 +24,14 @@ const getFieldId = (() => {
 })();
 
 
-const fieldModel = (id: string, {
+const fieldModel = <TClean>(id: string, {
    widget,
+   valueType = types.string,
    required = false,
    disabled = false,
    // tslint:disable-next-line:no-any
-}: FieldConfig<any, any>) => {
-   const ValidityModel = types.optional(validityModel(types.string), { state: VALIDATING });
+}: FieldConfig<any, TClean>) => {
+   const ValidityModel = types.optional(validityModel(valueType), { state: VALIDATING });
    return types.model(id, {
       touched: types.optional(types.boolean, false),
       validity: ValidityModel,
@@ -95,7 +97,8 @@ const fieldModel = (id: string, {
 };
 
 
-const formModel = (id: string, fields: TFields) =>
+// tslint:disable-next-line:no-any
+const formModel = (id: string, fields: TFields<any>) =>
    types.model(id, {
       touched: types.optional(types.boolean, false),
       error: types.maybe(types.string),
@@ -122,7 +125,7 @@ const formModel = (id: string, fields: TFields) =>
             {});
       },
       // tslint:disable-next-line:no-any
-      get validity(): Validity<any, {k: string}> {
+      get validity(): Validity<any, {k: any}> {
          return Object.keys(self.fields).reduce(
             // tslint:disable-next-line:no-any
             (v: Validity<any, any[]>, name: string) => {

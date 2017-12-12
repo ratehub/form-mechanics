@@ -57,6 +57,11 @@ export default class App extends React.Component {
                             <FieldError field="email" />
                             <Input field="email" />
                         </Col>
+                        <Col>
+                            <Label field="age" />
+                            <FieldError field="age" />
+                            <Input field="age" />
+                        </Col>
                     </Row>
                     <Row>
                         <Col>

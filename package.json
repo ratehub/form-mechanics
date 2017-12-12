@@ -1,7 +1,7 @@
 {
   "name": "form-mechanics",
   "description": "Compose forms through a nice API",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "dist/index.js",
   "typings": "typings/",
   "dependencies": {
