@@ -19,7 +19,7 @@ export const Form = formModel('Profile', {
    },
    age: {
       widget: NumberInput,
-      required: true,
+      // required: true,
       valueType: types.number,
    }
 });

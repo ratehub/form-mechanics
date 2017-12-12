@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { INVALID, Validity, FieldProps, inputProps } from '..';
 
 // tslint:disable-next-line:no-any
@@ -40,13 +39,7 @@ const Text: React.StatelessComponent<FieldProps<string, string, {}>> =
    });
 
 
-Text.propTypes = inputProps(
-   PropTypes.string,
-   PropTypes.string.isRequired,
-   PropTypes.shape({
-      placeholder: PropTypes.string,
-   })
-);
+Text.propTypes = inputProps();
 
 
 export default Object.assign(Text, {

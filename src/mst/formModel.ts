@@ -8,7 +8,8 @@ import { MSTComponentType } from '.';
 interface FieldConfig<TRaw, TClean> {
    readonly disabled?: boolean;
    readonly required?: boolean;
-   readonly valueType?: IType<{}, TClean>;
+   // tslint:disable-next-line:no-any
+   readonly valueType?: IType<any, any>;
    readonly widget: MSTComponentType<TRaw, TClean>;
 }
 
@@ -31,7 +32,8 @@ const fieldModel = <TClean>(id: string, {
    disabled = false,
    // tslint:disable-next-line:no-any
 }: FieldConfig<any, TClean>) => {
-   const ValidityModel = types.optional(validityModel(valueType), { state: VALIDATING });
+   const cleanValueType = required ? valueType : types.maybe(valueType);
+   const ValidityModel = types.optional(validityModel(cleanValueType), { state: VALIDATING });
    return types.model(id, {
       touched: types.optional(types.boolean, false),
       validity: ValidityModel,

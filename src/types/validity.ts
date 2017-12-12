@@ -24,13 +24,16 @@ export type Validity<T, E = string> = Validating
 
 
 export const validityPropType = (cleanValueType: Validator,
+                                 required: boolean,
                                  errReasonType: Validator = PropTypes.string) => PropTypes.oneOfType([
    PropTypes.shape({
       state: literalProp('validating').isRequired,
    }),
    PropTypes.shape({
       state: literalProp('valid').isRequired,
-      cleanValue: cleanValueType,
+      cleanValue: required
+         ? cleanValueType
+         : PropTypes.oneOf([literalProp(undefined), literalProp(null), cleanValueType]),
    }),
    PropTypes.shape({
       state: literalProp('invalid').isRequired,

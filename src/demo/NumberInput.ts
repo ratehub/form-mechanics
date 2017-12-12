@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import TextInput from './TextInput';
 import { FieldProps, inputProps } from '..';
 
@@ -27,14 +26,5 @@ export default Object.assign(NumberInput, TextInput, {
          ? Promise.reject('Not a valid number')
          : Promise.resolve(n);
    },
-   propTypes: inputProps(
-      PropTypes.string,
-      PropTypes.number.isRequired,
-      PropTypes.shape({
-         placeholder: PropTypes.string,
-         max: PropTypes.number,
-         min: PropTypes.number,
-         step: PropTypes.number,
-      }),
-   ),
+   propTypes: inputProps(),
 });
