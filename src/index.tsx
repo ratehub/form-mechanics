@@ -15,6 +15,10 @@ export {
   injectFormInfo,
 } from './context';
 
+export {
+  validate,
+} from './validation';
+
 
 if (process.env.REACT_APP_DEMO) {
   const React = require('react');
