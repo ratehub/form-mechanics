@@ -6,7 +6,7 @@ const BaseInput = TextInput.bind(null);  // lose propTypes and stuff
 
 
 const NumberInput: React.StatelessComponent<FieldProps<string, number, {}>> =
-({ children, inputProps: propsForInput, ...props }) => {
+({ children, onCommit, inputProps: propsForInput, ...props }) => {
    const numberInputProps = {
       ...propsForInput,
       type: 'number',
@@ -14,6 +14,7 @@ const NumberInput: React.StatelessComponent<FieldProps<string, number, {}>> =
    return React.createElement(BaseInput, {
       inputProps: numberInputProps,
       ...props,
+      onCommit: () => onCommit(),
    } as FieldProps<string, string, {}>,
                               children);
 };

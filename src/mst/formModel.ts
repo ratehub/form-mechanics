@@ -85,10 +85,14 @@ const fieldModel = <TClean>(id: string, {
       afterCreate() {  // lifecycle hook
          self.validate();
       },
-      handleCommit() {
+      // tslint:disable-next-line:no-any
+      handleCommit: process(function* (format?: (clean: any, raw: typeof self.raw) => typeof self.raw) {
          self.touched = true;
-         self.validate();
-      },
+         yield self.validate();
+         if (format && self.validity.state === VALID) {
+            self.raw = format(self.validity.cleanValue, self.raw);
+         }
+      }),
       handleUpdate(newValue: string) {
          self.raw = newValue;
          if (self.dirty) {

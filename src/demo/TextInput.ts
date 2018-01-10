@@ -18,6 +18,8 @@ const style = (dirty: boolean, validity: Validity<any>) => Object.assign(
    borderColor: 'firebrick',
 });
 
+const format = (clean: string, raw: string) =>
+   clean.toUpperCase();
 
 const Text: React.StatelessComponent<FieldProps<string, string, {}>> =
 ({ id, dirty, disabled, inputProps: forInput, name, onCommit, onUpdate, raw, validity }) =>
@@ -26,7 +28,7 @@ const Text: React.StatelessComponent<FieldProps<string, string, {}>> =
       name,
       disabled,
       type: 'text',
-      onBlur: () => onCommit(),
+      onBlur: () => onCommit(format),
       onKeyPress: ({ key }) => {
          if (key === 'Enter') {
             onCommit();

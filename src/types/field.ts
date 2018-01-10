@@ -16,7 +16,7 @@ export interface FieldInfo<TClean> extends FieldConfig {
 export interface FieldProps<TRaw, TClean, TInputProps> extends FieldInfo<TClean> {
    readonly inputProps: TInputProps;
    readonly name: string;
-   readonly onCommit: () => void;
+   readonly onCommit: (format?: (clean: TClean, raw: TRaw) => TRaw) => void;
    readonly onUpdate: (value: TRaw) => void;
    readonly raw: TRaw;
 }
