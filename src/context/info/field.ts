@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import getName from 'react-display-name';
 import { observer } from 'mobx-react';
 import { CTX_KEY } from '../constants';
