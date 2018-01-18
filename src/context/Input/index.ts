@@ -21,6 +21,7 @@ const Input: React.StatelessComponent<Props<any>> = (
    }
    return React.createElement(field.Component, {
       id: field.htmlId,
+      committed: field.committed,
       dirty: field.dirty,
       disabled: disabled || field.disabled,
       inputProps,

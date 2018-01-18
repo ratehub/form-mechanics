@@ -18,9 +18,11 @@ const style = (dirty: boolean, validity: Validity<any>) => Object.assign(
    borderColor: 'firebrick',
 });
 
+const formatUpper = (value: string) =>
+   value.toUpperCase();
 
 const Text: React.StatelessComponent<FieldProps<string, string, {}>> =
-({ id, dirty, disabled, inputProps: forInput, name, onCommit, onUpdate, raw, validity }) =>
+({ id, committed, dirty, disabled, inputProps: forInput, name, onCommit, onUpdate, raw, validity }) =>
    React.createElement('input', {
       id,
       name,
@@ -33,7 +35,7 @@ const Text: React.StatelessComponent<FieldProps<string, string, {}>> =
          }
       },
       onChange: ({ target: { value } }: { target: { value: string } }) => onUpdate(value),
-      value: raw,
+      value: committed ? formatUpper(raw) : raw,
       style: style(dirty, validity),
       ...forInput,
    });

@@ -36,6 +36,7 @@ const fieldModel = <TClean>(id: string, {
    const ValidityModel = types.optional(validityModel(cleanValueType), { state: VALIDATING });
    return types.model(id, {
       touched: types.optional(types.boolean, false),
+      committed: types.optional(types.boolean, true),
       validity: ValidityModel,
       raw: types.optional(types.string, ''),
    })
@@ -87,10 +88,12 @@ const fieldModel = <TClean>(id: string, {
       },
       handleCommit() {
          self.touched = true;
+         self.committed = true;
          self.validate();
       },
       handleUpdate(newValue: string) {
          self.raw = newValue;
+         self.committed = false;
          if (self.dirty) {
             self.validate();
          }

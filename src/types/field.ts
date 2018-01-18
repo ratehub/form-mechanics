@@ -9,6 +9,7 @@ export interface FieldConfig {
 }
 
 export interface FieldInfo<TClean> extends FieldConfig {
+   readonly committed: boolean;
    readonly dirty: boolean;
    readonly validity: Validity<TClean>;
 }
@@ -22,6 +23,7 @@ export interface FieldProps<TRaw, TClean, TInputProps> extends FieldInfo<TClean>
 }
 
 export const inputProps = () => ({
+   committed: PropTypes.bool.isRequired,
    dirty: PropTypes.bool.isRequired,
    disabled: PropTypes.bool.isRequired,
    id: PropTypes.string.isRequired,
