@@ -10,7 +10,7 @@ interface FieldConfig<TRaw, TClean> {
    readonly required?: boolean;
    // tslint:disable-next-line:no-any
    readonly valueType?: IType<any, any>;
-   readonly widget: MSTComponentType<TRaw, TClean>;
+   readonly inputComponent: MSTComponentType<TRaw, TClean>;
 }
 
 
@@ -26,7 +26,7 @@ const getFieldId = (() => {
 
 
 const fieldModel = <TClean>(id: string, {
-   widget,
+   inputComponent,
    valueType = types.string,
    required = false,
    disabled = false,
@@ -49,7 +49,7 @@ const fieldModel = <TClean>(id: string, {
    })
    .views(self => ({
       get Component() {
-         return widget;
+         return inputComponent;
       },
       get disabled() {
          return disabled;

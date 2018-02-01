@@ -6,19 +6,19 @@ import NumberInput from './NumberInput';
 
 export const Form = formModel('Profile', {
    firstName: {
-      widget: TextInput,
+      inputComponent: TextInput,
       required: true,
    },
    lastName: {
-      widget: TextInput,
+      inputComponent: TextInput,
       required: true,
    },
    email: {
-      widget: EmailInput,
+      inputComponent: EmailInput,
       required: true,
    },
    age: {
-      widget: NumberInput,
+      inputComponent: NumberInput,
       // required: true,
       valueType: types.number,
    }
