@@ -1,4 +1,4 @@
-import { process, types, IType } from 'mobx-state-tree';
+import { flow, types, IType } from 'mobx-state-tree';
 import { validate } from '../validation';
 import validityModel from './validityModel';
 import { VALID, VALIDATING, INVALID, Validity } from '../types';
@@ -33,11 +33,10 @@ const fieldModel = <TClean>(id: string, {
    // tslint:disable-next-line:no-any
 }: FieldConfig<any, TClean>) => {
    const cleanValueType = required ? valueType : types.maybe(valueType);
-   const ValidityModel = types.optional(validityModel(cleanValueType), { state: VALIDATING });
    return types.model(id, {
       touched: types.optional(types.boolean, false),
       committed: types.optional(types.boolean, false),  // validates on init with commit=true
-      validity: ValidityModel,
+      validity: types.optional(validityModel(cleanValueType), { state: VALIDATING }),
       raw: types.optional(types.string, ''),
    })
    .views((self) => {
@@ -63,28 +62,19 @@ const fieldModel = <TClean>(id: string, {
       },
    }))
    .actions(self => ({
-      setValidity(validity: typeof self.validity, commit: boolean) {
-         // this action shouldn't need to exist, but there's an issue with mobx transactions, and wrapping this
-         // mutation fixes it for now.
-         self.validity = validity;
-         if (validity.state !== VALID) {
-            // always un-commit if we're no longer valid
-            self.committed = false;
-         } else if (commit) {
-            self.committed = true;
-         }
-      }
-   }))
-   .actions(self => ({
-      validate: process(function* (commit: boolean) {
+      validate: flow(function* (commit: boolean) {
          self.validity = { state: VALIDATING };
          try {
             const validity = yield validate(self.raw, required, self.Component.isEmpty, self.Component.validate);
-            // MST bug? switch the following two lines to render with a dead validity subtree.
-            // self.validity = validity; self.committed = ...
-            self.setValidity(validity, commit);
+            self.validity = validity;
+            if (validity.state !== VALID) {
+               // always un-commit if we're no longer valid
+               self.committed = false;
+            } else if (commit) {
+               self.committed = true;
+            }
          } catch (err) {
-            self.setValidity({ state: INVALID, reason: `Error while validating: ${err}` }, commit);
+            self.validity = { state: INVALID, reason: `Error while validating: ${err}` };
          }
       }),
    }))
@@ -92,9 +82,9 @@ const fieldModel = <TClean>(id: string, {
       afterCreate() {  // lifecycle hook
          self.validate(true);
       },
-      handleCommit() {
+      async handleCommit() {
          self.touched = true;
-         self.validate(true);
+         await self.validate(true);
       },
       handleUpdate(newValue: string) {
          self.raw = newValue;
