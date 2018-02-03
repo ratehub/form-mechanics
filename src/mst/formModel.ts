@@ -45,6 +45,9 @@ const fieldModel = <TClean>(id: string, {
          get htmlId() {
             return volatileId;
          },
+         get name() {
+            return id;
+         },
       };
    })
    .views(self => ({
