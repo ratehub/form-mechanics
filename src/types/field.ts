@@ -19,7 +19,9 @@ export interface FieldProps<TRaw, TClean, TInputProps> extends FieldInfo<TClean>
    readonly name: string;
    readonly onCommit: () => void;
    readonly onUpdate: (value: TRaw) => void;
+   readonly onSelect: (value: Boolean) => void;
    readonly raw: TRaw;
+   readonly checked: Boolean;
 }
 
 export const inputProps = () => ({
@@ -30,7 +32,9 @@ export const inputProps = () => ({
    inputProps: PropTypes.object,
    onCommit: PropTypes.func.isRequired,
    onUpdate: PropTypes.func.isRequired,
+   onSelect: PropTypes.func.isRequired,
    raw: PropTypes.any.isRequired,
+   checked: PropTypes.bool,
    required: PropTypes.bool.isRequired,
    validity: PropTypes.object.isRequired,
 });

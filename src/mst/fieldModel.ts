@@ -4,6 +4,12 @@ import validityModel from './validityModel';
 import { VALID, VALIDATING, INVALID } from '../types';
 import { MSTComponentType } from '.';
 
+/**
+ *
+ * TRaw : String value of the type before validation
+ * TClean: Value of type TClean, once run through the validation.
+ *
+ */
 interface FieldConfig<TRaw, TClean> {
    readonly disabled?: boolean;
    readonly required?: boolean;
@@ -30,6 +36,7 @@ const fieldModel = <TClean>(id: string, {
       committed: types.optional(types.boolean, false),  // validates on init with commit=true
       validity: types.optional(validityModel(cleanValueType), { state: VALIDATING }),
       raw: types.optional(types.string, ''),
+      selected: types.optional(types.boolean, false)
    })
    .views((self) => {
       const volatileId = `field-id-${getFieldId()}`;
@@ -88,6 +95,10 @@ const fieldModel = <TClean>(id: string, {
             self.validate(false);
          }
       },
+      handleSelect(newValue: boolean) {
+         self.selected = newValue;
+         self.committed = false;
+      }
    }));
 };
 

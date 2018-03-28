@@ -22,8 +22,8 @@ const Col: React.StatelessComponent = ({ children }) => (
 export default class App extends React.Component {
     fields = ProfileForm.create();
 
-    constructor() {
-        super();
+    constructor(props: {}) {
+        super(props);
     }
 
     handleSubmit = (data: {}) => {

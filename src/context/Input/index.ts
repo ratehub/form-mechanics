@@ -20,17 +20,19 @@ const Input: React.StatelessComponent<Props<any>> = (
       throw new Error(`could not find field '${fieldId}' (available: ${available})`);
    }
    return React.createElement(field.Component, {
-      id: field.htmlId,
-      committed: field.committed,
-      dirty: field.dirty,
-      disabled: disabled || field.disabled,
-      inputProps,
-      name: getType(field).name,
-      onCommit: field.handleCommit,
-      onUpdate: field.handleUpdate,
-      raw: field.raw,
-      required: field.required,
-      validity: field.validity,
+       id: field.htmlId,
+       committed: field.committed,
+       dirty: field.dirty,
+       disabled: disabled || field.disabled,
+       inputProps,
+       name: getType(field).name,
+       onCommit: field.handleCommit,
+       onUpdate: field.handleUpdate,
+       onSelect: field.handleSelect,
+       raw: field.raw,
+       required: field.required,
+       checked: field.selected,
+       validity: field.validity,
    });
 };
 
