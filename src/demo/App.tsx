@@ -31,6 +31,10 @@ export default class App extends React.Component {
         console.log('data', data);
     }
 
+    handleReset = (data: {}) => {
+        console.log('reset', data);
+    }
+
     render() {
         return (
             <Form

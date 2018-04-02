@@ -78,6 +78,11 @@ const formModel = (id: string, fields: TFields<any>) =>
    .actions(self => ({
       touch() {
          self.touched = true;
+      },
+      reset() {
+         // Potentially add support for default values
+         // and reset to those values.
+         console.log('resetting');
       }
    }));
 

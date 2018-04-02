@@ -5,7 +5,7 @@ interface FormProps {
    // tslint:disable-next-line:no-any
    model: any;
    // tslint:disable-next-line:no-any
-   onSubmit(_: {}): Promise<any> | void;
+   onSubmit(event: any): Promise<any> | void;
 }
 
 export default class FormProvider extends React.Component<FormProps> {
@@ -47,9 +47,14 @@ export default class FormProvider extends React.Component<FormProps> {
       return this.handleSubmit();
    }
 
+   handleFormReset = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      return this.handleReset();
+   }
+
    render() {
       const { children } = this.props;
       if (!children) { return null; }
-      return React.createElement('form', { onSubmit: this.handleFormSubmit }, children);
+      return React.createElement('form', { onSubmit: this.handleFormSubmit, onReset: this.handleFormReset }, children);
    }
 }
