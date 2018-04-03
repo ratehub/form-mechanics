@@ -4,6 +4,10 @@
   "version": "0.1.10",
   "main": "dist/index.js",
   "typings": "typings/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://git@github.com/ratehub/form-mechanics.git"
+  },
   "dependencies": {
     "@types/jest": "^21.1.1",
     "@types/node": "^8.0.31",
@@ -14,6 +18,8 @@
     "start": "REACT_APP_DEMO=1 react-scripts-ts start",
     "build": "rm -fr dist && tsc",
     "prepublish": "npm run build",
+    "postinstall": "npm run build",
+    "prepare": "npm run build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
   },
