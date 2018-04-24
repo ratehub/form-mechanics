@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { isAlive } from 'mobx-state-tree';
 import { CTX_KEY } from '../constants';
 
 interface FormProps {
@@ -39,7 +40,8 @@ export default class FormProvider extends React.Component<FormProps> {
 
    componentWillUnmount() {
       const { model } = this.props;
-      model.touch();
+      if(isAlive(model))
+         model.touch();
    }
 
    handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
