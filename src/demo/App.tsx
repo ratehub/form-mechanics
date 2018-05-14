@@ -19,8 +19,8 @@ const Col: React.StatelessComponent = ({ children }) => (
 );
 
 @observer
-export default class App extends React.Component {
-    fields = ProfileForm.create();
+export default class App extends React.Component<any> {
+    model: typeof ProfileForm.Type = ProfileForm.create();
 
     constructor(props: {}) {
         super(props);
@@ -32,13 +32,19 @@ export default class App extends React.Component {
     }
 
     handleReset = (data: {}) => {
+        // tslint:disable-next-line:no-console
         console.log('reset', data);
     }
 
     render() {
+        let firstName = 'firstName';
+        let lastName = 'lastName';
+        let email = 'email';
+        let age = 'age';
+
         return (
             <Form
-                model={this.fields}
+                model={this.model}
                 onSubmit={this.handleSubmit}
             >
                 <div>
@@ -47,24 +53,24 @@ export default class App extends React.Component {
                         <Col>
                             <Label field="firstName" />
                             <FieldError field="firstName" />
-                            <Input field="firstName" />
+                            <Input field={this.model.fields[firstName]} />
                         </Col>
                         <Col>
                             <Label field="lastName" />
                             <FieldError field="lastName" />
-                            <Input field="lastName" />
+                            <Input field={this.model.fields[lastName]} />
                         </Col>
                     </Row>
                     <Row>
                         <Col>
                             <Label field="email" />
                             <FieldError field="email" />
-                            <Input field="email" />
+                            <Input field={this.model.fields[email]} />
                         </Col>
                         <Col>
                             <Label field="age" />
                             <FieldError field="age" />
-                            <Input field="age" />
+                            <Input field={this.model.fields[age]} />
                         </Col>
                     </Row>
                     <Row>

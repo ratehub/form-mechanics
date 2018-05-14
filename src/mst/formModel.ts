@@ -12,25 +12,30 @@ interface FieldConfig<TRaw, TClean> {
    readonly inputComponent: MSTComponentType<TRaw, TClean>;
 }
 
+const getInstanceId = (() => {
+    let currentId = 0;
+    return () => currentId++;
+})();
 
 type TFields<TClean> = {
-   readonly [ID: string]: FieldConfig<string, TClean>;
+    readonly [ID: string]: FieldConfig<string, TClean>;
 };
 
 // tslint:disable-next-line:no-any
-const formModel = (id: string, fields: TFields<any>) =>
+const formModel = (id: string, fields: TFields<any>) => (
    types.model(id, {
+      instance: types.optional(types.string, `${id}-${getInstanceId()}`),
       touched: types.optional(types.boolean, false),
       error: types.maybe(types.string),
       fields: types.optional(
          types.model(`${id}Fields`, Object.keys(fields).reduce(
             (props, fieldId: string) => ({
                ...props,
-               [fieldId]: types.optional(fieldModel(fieldId, fields[fieldId]), {}),
+               [fieldId]: types.optional(fieldModel(`${id}${fieldId}${getInstanceId()}`, fields[fieldId]), {}),
             }),
             {} as { notUndefined: true })),
          {}),
-   })
+   }))
    .views(self => ({
       get dirty(): boolean {
          return self.touched || Object.keys(self.fields).some(f => self.fields[f].dirty);
@@ -76,13 +81,17 @@ const formModel = (id: string, fields: TFields<any>) =>
       }
    }))
    .actions(self => ({
+      afterCreate() {
+          Object.keys(self.fields).forEach((key) => {
+              self.fields[key].instance = `${self.instance}-${key}`;
+          });
+      },
       touch() {
          self.touched = true;
       },
       reset() {
          // Potentially add support for default values
          // and reset to those values.
-         console.log('resetting');
       }
    }));
 

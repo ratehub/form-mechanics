@@ -40,8 +40,9 @@ export default class FormProvider extends React.Component<FormProps> {
 
    componentWillUnmount() {
       const { model } = this.props;
-      if(isAlive(model))
+      if (isAlive(model)) {
          model.touch();
+      }
    }
 
    handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {

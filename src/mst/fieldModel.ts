@@ -18,11 +18,6 @@ interface FieldConfig<TRaw, TClean> {
    readonly inputComponent: MSTComponentType<TRaw, TClean>;
 }
 
-const getFieldId = (() => {
-   let currentId = 0;
-   return () => currentId++;
-})();
-
 const fieldModel = <TClean>(id: string, {
    inputComponent,
    valueType = types.string,
@@ -32,6 +27,7 @@ const fieldModel = <TClean>(id: string, {
 }: FieldConfig<any, TClean>) => {
    const cleanValueType = required ? valueType : types.maybe(valueType);
    return types.model(id, {
+      instance: types.optional(types.string, id),
       touched: types.optional(types.boolean, false),
       committed: types.optional(types.boolean, false),  // validates on init with commit=true
       validity: types.optional(validityModel(cleanValueType), { state: VALIDATING }),
@@ -39,13 +35,12 @@ const fieldModel = <TClean>(id: string, {
       selected: types.optional(types.boolean, false)
    })
    .views((self) => {
-      const volatileId = `field-id-${getFieldId()}`;
       return {
          get htmlId() {
-            return volatileId;
+            return self.instance;
          },
          get name() {
-            return id;
+            return self.instance;
          },
       };
    })
