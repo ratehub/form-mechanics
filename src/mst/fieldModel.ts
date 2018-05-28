@@ -93,6 +93,9 @@ const fieldModel = <TClean>(id: string, {
       handleSelect(newValue: boolean) {
          self.selected = newValue;
          self.committed = false;
+      },
+      touch() {
+         self.touched = true;
       }
    }));
 };

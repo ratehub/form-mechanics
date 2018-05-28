@@ -19,6 +19,11 @@ export {
   validate,
 } from './validation';
 
+export {
+  fieldModel,
+  formModel
+} from './mst';
+
 
 if (process.env.REACT_APP_DEMO) {
   const React = require('react');
