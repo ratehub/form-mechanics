@@ -11,7 +11,7 @@ interface Props<TInputProps extends {}> {
 // tslint:disable-next-line:no-any
 const Input: React.StatelessComponent<Props<any>> = (
    { field, disabled, inputProps },
-   { [CTX_KEY]: { model },
+   { [CTX_KEY]: {},
 }) => {
    return React.createElement(field.Component, {
        id: field.htmlId,
