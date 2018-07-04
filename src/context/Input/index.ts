@@ -22,10 +22,8 @@ const Input: React.StatelessComponent<Props<any>> = (
        name: field.name,
        onCommit: field.handleCommit,
        onUpdate: field.handleUpdate,
-       onSelect: field.handleSelect,
        raw: field.raw,
        required: field.required,
-       checked: field.selected,
        validity: field.validity,
    });
 };

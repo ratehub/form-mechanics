@@ -31,8 +31,7 @@ const fieldModel = <TClean>(id: string, {
       touched: types.optional(types.boolean, false),
       committed: types.optional(types.boolean, false),  // validates on init with commit=true
       validity: types.optional(validityModel(cleanValueType), { state: VALIDATING }),
-      raw: types.optional(types.string, ''),
-      selected: types.optional(types.boolean, false)
+      raw: types.optional(types.string, '')
    })
    .views((self) => {
       return {
@@ -89,10 +88,6 @@ const fieldModel = <TClean>(id: string, {
          if (self.dirty) {
             self.validate(false);
          }
-      },
-      handleSelect(newValue: boolean) {
-         self.selected = newValue;
-         self.committed = false;
       },
       touch() {
          self.touched = true;
