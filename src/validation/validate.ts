@@ -1,33 +1,47 @@
 import { Validity, VALID, INVALID } from '../types';
 
-// tslint:disable-next-line:no-any
-const niceError = (err: any) => {
-    let reason;
+
+/**
+ * A function to determine if an input value can be translated into an output value
+ * and satisfy the input requirements.
+ * @param value input value
+ * @param required if a non-empty value must be supplied
+ * @param isEmpty function to test whether the input is empty
+ * @param typeValidator function to convert from input type to output type
+ * @param extraValidator function to determine if a converted output type is within acceptable range
+ * @returns validation result of the input.
+ */
+export default function validate<T, U>(
+                    value: T,
+                    required: boolean,
+                    isEmpty: (v: T) => boolean,
+                    typeValidator: (v: T) => U,
+                    extraValidator: (v: U) => U):
+    Validity<U> {
+    
+    if (isEmpty(value) && required) {
+        return { 
+            state: INVALID, 
+            reason: "A value is required"
+        };
+    }
+
     try {
-        reason = `${err}`;
-    } catch (err) {
-        reason = 'Unknown error while validating';
+        let result = typeValidator(value);
+        
+        if (extraValidator) {
+            result = extraValidator(result);
+        }
+        
+        return { 
+            state: VALID, 
+            cleanValue: result 
+        };
     }
-    return Promise.resolve({ state: INVALID, reason });
-};
-
-// tslint:disable-next-line:no-any
-const id = <T>(x: T) =>
-    Promise.resolve(x);
-
-export default <T, U>(value: T,
-                      required: boolean,
-                      isEmpty: (v: T) => boolean,
-                      typeValidator: (v: T) => Promise<U>,
-                      extraValidator: (v: U) => Promise<U> = id):
-    Promise<Validity<U>> => {
-    if (isEmpty(value)) {
-        return required
-            ? Promise.resolve({ state: INVALID, reason: 'A value is required' })
-            : Promise.resolve({ state: VALID });
+    catch(err) {
+        return { 
+            state: INVALID,
+            reason: (err && `${err}`) || "Input is not valid"
+        }
     }
-    return typeValidator(value)
-        .then(extraValidator)
-        .then(cleanValue => ({ state: VALID, cleanValue }))
-        .catch(niceError);
 };
