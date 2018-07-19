@@ -1,6 +1,6 @@
 import { types, IType } from 'mobx-state-tree';
 
-import { VALID, INVALID, Validity } from '../types';
+import { Validity, VALID, INVALID } from '../types';
 import { MSTComponentType } from '.';
 import fieldModel from './fieldModel';
 
@@ -50,27 +50,22 @@ const formModel = (id: string, fields: TFields<any>) => (
                 {});
         },
         // tslint:disable-next-line:no-any
-        get validity(): Validity<any, { k: any }> {
+        get validity(): Validity<any, any> {
             return Object.keys(self.fields).reduce(
                 // tslint:disable-next-line:no-any
-                (v: Validity<any, any[]>, name: string) => {
+                (v: Validity<any, any>, name: string) => {
                     const field = self.fields[name];
-                    if (field.validity.state === VALIDATING) {
-                        return field.validity;
-                    }
-                    else if (v.state === INVALID) {
+                    if (v.state === INVALID) {
                         if (field.validity.state === INVALID) {
                             v.reason[name] = field.validity.reason;
                         }
                         return v;
-                    }
-                    else if (field.validity.state === INVALID) {
+                    } else if (field.validity.state === INVALID) {
                         return {
                             state: INVALID,
                             reason: { [name]: field.validity.reason },
                         };
-                    }
-                    else {
+                    } else {
                         v.cleanValue[name] = field.validity.cleanValue;
                         return v;
                     }

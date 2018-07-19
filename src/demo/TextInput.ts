@@ -46,5 +46,5 @@ Text.propTypes = inputProps();
 
 export default Object.assign(Text, {
    isEmpty: (v: string) => v === '',
-   validate: (v: string): Promise<string> => Promise.resolve(v),
+   validate: (v: string): string => v,
 });

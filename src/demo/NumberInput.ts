@@ -20,11 +20,12 @@ const NumberInput: React.StatelessComponent<FieldProps<string, number, {}>> =
 
 
 export default Object.assign(NumberInput, TextInput, {
-   validate: (v: string): Promise<number> => {
+   validate: (v: string): number => {
       const n = parseFloat(v);
-      return isNaN(n)
-         ? Promise.reject('Not a valid number')
-         : Promise.resolve(n);
+      if (isNaN(n)) {
+          throw 'Not a valid number';
+      }
+      return n;
    },
    propTypes: inputProps(),
 });
