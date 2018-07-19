@@ -1,5 +1,6 @@
 import { types, IType } from 'mobx-state-tree';
-import { VALID, VALIDATING, INVALID, Validity } from '../types';
+
+import { VALID, INVALID, Validity } from '../types';
 import { MSTComponentType } from '.';
 import fieldModel from './fieldModel';
 

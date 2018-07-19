@@ -3,7 +3,6 @@ export {
   FieldProps,
   INVALID,
   VALID,
-  VALIDATING,
   Validity,
   inputProps,
 } from './types';

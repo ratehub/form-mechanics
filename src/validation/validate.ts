@@ -2,8 +2,7 @@ import { Validity, VALID, INVALID } from '../types';
 
 
 /**
- * A function to determine if an input value can be translated into an output value
- * and satisfy the input requirements.
+ * Attempt to translate an input value into an output value and satisfy the input requirements.
  * @param value input value
  * @param required if a non-empty value must be supplied
  * @param isEmpty function to test whether the input is empty
@@ -16,7 +15,7 @@ export default function validate<T, U>(
                     required: boolean,
                     isEmpty: (v: T) => boolean,
                     typeValidator: (v: T) => U,
-                    extraValidator: (v: U) => U):
+                    extraValidator?: (v: U) => U):
     Validity<U> {
     
     if (isEmpty(value) && required) {

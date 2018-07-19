@@ -19,8 +19,8 @@ export interface Invalid<E> {
 export type Validity<T, E = string> = Valid<T> | Invalid<E>;
 
 /**
- * React PropType for our validity object.
- * @param cleanValueType function 
+ * Function to produce a React PropType for our validity object.
+ * @param cleanValueType function to convert from input to output type
  * @param required 
  * @param errReasonType 
  */

@@ -1,21 +1,30 @@
 import { ComponentType } from 'react';
 import * as PropTypes from 'prop-types';
+
 import { Validity } from '.';
 
 
-
+/**
+ * Configuration object for a view-model field.
+ */
 export interface FieldConfig {
     readonly id: string;
     readonly disabled: boolean;
     readonly required: boolean;
 }
 
+/**
+ * Backing state of a view-model field.
+ */
 export interface FieldInfo<TClean> extends FieldConfig {
     readonly committed: boolean;
     readonly dirty: boolean;
     readonly validity: Validity<TClean>;
 }
 
+/**
+ * React input props for a view-model field.
+ */
 export interface FieldProps<TRaw, TClean, TInputProps> extends FieldInfo<TClean> {
     readonly inputProps: TInputProps;
     readonly name: string;
@@ -27,7 +36,7 @@ export interface FieldProps<TRaw, TClean, TInputProps> extends FieldInfo<TClean>
 }
 
 /**
- * Shape of the React props for our field model.
+ * React PropTypes definition for a React component bound to our view-model field.
  */
 export const inputProps = () => ({
     committed: PropTypes.bool.isRequired,
@@ -45,7 +54,7 @@ export const inputProps = () => ({
 });
 
 /**
- * 
+ * Typescript type definition for the React component we bind our view-model field to.
  */
 export type FieldComponentType<TRaw, TClean, TInputProps = {}> =
     ComponentType<FieldProps<TRaw, TClean, TInputProps>> & {
