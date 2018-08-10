@@ -24,8 +24,6 @@
   },
   "scripts": {
     "build": "rm -fr dist && tsc",
-    "prepublish": "npm run build",
-    "postinstall": "npm run build",
     "prepare": "npm run build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
