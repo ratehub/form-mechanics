@@ -1,5 +1,5 @@
 {
-  "name": "form-mechanics",
+  "name": "@ratehub/form-mechanics",
   "description": "Compose forms through a nice API",
   "version": "0.1.10",
   "main": "dist/index.js",

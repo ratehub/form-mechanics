@@ -124,7 +124,14 @@ const fieldModel = <TClean>(id: string, {
         },
         touch() {
             self.touched = true;
-        },
+        }
+    }))
+    .actions(self => ({
+        reset() {
+            self.handleUpdate('');
+            self.handleCommit();
+            self.touched = false;
+        }
     }));
 };
 
