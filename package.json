@@ -1,5 +1,5 @@
 {
-  "name": "form-mechanics",
+  "name": "@ratehub/form-mechanics",
   "description": "Compose forms through a nice API",
   "version": "0.1.11",
   "main": "dist/index.js",
@@ -23,6 +23,7 @@
     "typescript": "^2.7.0"
   },
   "scripts": {
+    "start": "REACT_APP_DEMO=1 react-scripts-ts start",
     "build": "rm -fr dist && tsc",
     "prepare": "npm run build",
     "test": "react-scripts-ts test --env=jsdom",

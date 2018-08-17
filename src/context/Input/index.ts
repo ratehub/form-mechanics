@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
+
 import { CTX_KEY } from '../constants';
+
 
 interface Props<TInputProps extends {}> {
     disabled?: boolean;
@@ -8,8 +10,10 @@ interface Props<TInputProps extends {}> {
     inputProps?: TInputProps;
 }
 
-// tslint:disable-next-line:no-any
-const Input: React.StatelessComponent<Props<any>> = (
+/**
+ * Create a React input component to represent the contents of a view-model field.
+ */
+const Input: React.StatelessComponent<Props<any>> = ( // tslint:disable-line:no-any
    { field, disabled, inputProps },
    { [CTX_KEY]: {},
 }) => {

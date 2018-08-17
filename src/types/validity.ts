@@ -1,8 +1,5 @@
-
-export const VALIDATING: 'validating' = 'validating';
-export interface Validating {
-   readonly state: typeof VALIDATING;
-}
+import * as PropTypes from 'prop-types';
+import { Validator, literalProp } from '.';
 
 export const VALID: 'valid' = 'valid';
 export interface Valid<V> {
@@ -16,6 +13,28 @@ export interface Invalid<E> {
    readonly reason: E;
 }
 
-export type Validity<T, E = string> = Validating
-                                    | Valid<T>
-                                    | Invalid<E>;
+/**
+ * Typescript type for our validity object.
+ */
+export type Validity<T, E = string> = Valid<T> | Invalid<E>;
+
+/**
+ * Function to produce a React PropType for our validity object.
+ * @param cleanValueType function to convert from input to output type
+ * @param required 
+ * @param errReasonType 
+ */
+export const validityPropType = (cleanValueType: Validator,
+                                 required: boolean,
+                                 errReasonType: Validator = PropTypes.string) => PropTypes.oneOfType([
+   PropTypes.shape({
+      state: literalProp('valid').isRequired,
+      cleanValue: required
+         ? cleanValueType
+         : PropTypes.oneOf([literalProp(undefined), literalProp(null), cleanValueType]),
+   }),
+   PropTypes.shape({
+      state: literalProp('invalid').isRequired,
+      reason: errReasonType.isRequired,
+   })
+]);
